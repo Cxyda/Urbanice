@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a71740ba8e0164199550a69464347b, type: 3}
+  m_Name: CathedralConfig
+  m_EditorClassIdentifier: 
+  WardType: 12
+  DistrictTypes: 01000000
+  RenderColor: {r: 0.98039216, g: 0.72052544, b: 0.3803921, a: 1}
+  NeighboringDistricts:
+  - Element: 10
+    Weight: 0
+  - Element: 12
+    Weight: 0
+  - Element: 16
+    Weight: 10
+  - Element: 11
+    Weight: 0
+  - Element: 12
+    Weight: 0
+  - Element: 21
+    Weight: 5
+  - Element: 102
+    Weight: 2
+  - Element: 15
+    Weight: 5
+
+

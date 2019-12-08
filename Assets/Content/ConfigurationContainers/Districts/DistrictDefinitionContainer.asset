@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd481bff65cf3ac40bf07610a43a1882, type: 3}
+  m_Name: DistrictDefinitionContainer
+  m_EditorClassIdentifier: 
+  DistrictConfigs:
+  - {fileID: 11400000, guid: f3f48551d700cb24db6e01d8947b3f58, type: 2}
+  - {fileID: 11400000, guid: 24dc65f6629e47a459ec00fdf5ceb431, type: 2}
+  - {fileID: 11400000, guid: b657decc4a3255c47b5abd01ca281460, type: 2}
+  - {fileID: 11400000, guid: ee796004553800149a6ac65e33d412ed, type: 2}
+  - {fileID: 11400000, guid: 34aaa584a30384c43bfdc1f7eee60e7a, type: 2}
+  - {fileID: 11400000, guid: 6ac0d5768d6e2dc4b9098b7ec30bf3b8, type: 2}
+  - {fileID: 11400000, guid: b657decc4a3255c47b5abd01ca281460, type: 2}
+  - {fileID: 11400000, guid: 4ce2cf147f0759d4e8822a91690e9514, type: 2}

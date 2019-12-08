@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a71740ba8e0164199550a69464347b, type: 3}
+  m_Name: MasonConfig
+  m_EditorClassIdentifier: 
+  WardType: 35
+  DistrictTypes: 04000000
+  RenderColor: {r: 0.6226681, g: 0.3137255, b: 0.74509805, a: 1}
+  NeighboringDistricts:
+  - Element: 31
+    Weight: 3
+  - Element: 32
+    Weight: 2
+  - Element: 33
+    Weight: 3
+  - Element: 34
+    Weight: 8
+  - Element: 35
+    Weight: 12
+  - Element: 36
+    Weight: 4
+

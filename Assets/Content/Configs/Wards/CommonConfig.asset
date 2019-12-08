@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a71740ba8e0164199550a69464347b, type: 3}
+  m_Name: CommonConfig
+  m_EditorClassIdentifier: 
+  WardType: 100
+  DistrictTypes: 0300000004000000
+  RenderColor: {r: 0.8301887, g: 0.82725173, b: 0.81844074, a: 1}
+  NeighboringDistricts:
+  - Element: 101
+    Weight: 5
+  - Element: 102
+    Weight: 2
+  - Element: 100
+    Weight: 8
+
+
