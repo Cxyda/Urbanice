@@ -81,8 +81,10 @@ namespace Urbanice.Module.Layers
                 var cfg = DefinitionContainer.GetDefinitionFor(district.Type);
                 cfg.PatternGenerator.Init();
 
-                district.Neigborhoods = cfg.PatternGenerator.Generate(insidePoints, Polygon.CloneInsetAndFlip(district.Shape, 0.01f), true);
-
+                var clonedPolygon = Polygon.CloneInsetAndFlip(district.Shape, 0.01f);
+                district.Neigborhoods = cfg.PatternGenerator.Generate(insidePoints, clonedPolygon, true);
+                clonedPolygon.Destroy();
+                
                 district.Neigborhoods.Sort((n1, n2) =>
                 {
                     return Vector2.Distance(n1.Center, district.Shape.Center) >
@@ -92,8 +94,8 @@ namespace Urbanice.Module.Layers
                 DevelopNeighbours(district);
 
                 // Temporary
-                Regions.AddRange(cfg.PatternGenerator.Regions);
-                Sites.AddRange(cfg.PatternGenerator.Sites);
+                //Regions.AddRange(cfg.PatternGenerator.Regions);
+                //Sites.AddRange(cfg.PatternGenerator.Sites);
             }
         }
 

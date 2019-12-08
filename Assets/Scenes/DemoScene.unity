@@ -292,9 +292,9 @@ MonoBehaviour:
   ShowDistricts: 0
   ShowDistrictBorders: 1
   ShowDistrictWire: 0
-  ShowNeighborhoods: 0
+  ShowNeighborhoods: 1
   ShowNeighborhoodBorders: 1
-  ShowNeighborhoodWire: 0
+  ShowNeighborhoodWire: 1
   DistrictConfigs: {fileID: 11400000, guid: 40d8552e9b8f3ed41a436c285dcfbbc2, type: 2}
   WardConfig: {fileID: 11400000, guid: 36b0c0411b7baad45a97de11c4da9243, type: 2}
 --- !u!114 &1129351040
@@ -313,7 +313,7 @@ MonoBehaviour:
   ShowCityCore: 0
   ShowCityBounds: 1
   ShowCityIndexes: 0
-  ShowDistricts: 0
+  ShowDistricts: 1
   ShowDistrictCenters: 0
   ShowDistrictBorders: 1
   ShowDistrictIndexes: 1

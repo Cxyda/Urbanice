@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e4b77c2601d473392b8c3b4625a82cc, type: 3}
   m_Name: Manip2
   m_EditorClassIdentifier: 
-  Amount: 0.065
+  Amount: 0.17
   Iterations: 2

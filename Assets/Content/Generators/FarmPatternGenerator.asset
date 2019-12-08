@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FarmPatternGenerator
   m_EditorClassIdentifier: 
   ValueGenerator: {fileID: 11400000, guid: 900ed52da4b5dcc4599fc2fee8ef46d2, type: 2}
-  MinPointDistance: 0.109
+  MinPointDistance: 0.028
   PointDistribution:
     serializedVersion: 2
     m_Curve:
@@ -38,5 +38,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  CellDensity: 20
+  CellDensity: 2
   ShapeManipulators: []

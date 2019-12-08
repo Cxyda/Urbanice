@@ -103,7 +103,7 @@ namespace Urbanice.Data
         /// <summary>
         /// Finds and returns the closest vertex in a list of vertices. it's possible to exclude certain vertices of the list
         /// </summary>
-        public bool FindClosestIn(List<Vertex> list, out Vertex closest, List<Vertex> exclude = null)
+        public bool FindClosestIn(List<Vertex> list, out Vertex closest, params Vertex[] exclude)
         {
             var closestDistance = float.MaxValue;
             closest = null;

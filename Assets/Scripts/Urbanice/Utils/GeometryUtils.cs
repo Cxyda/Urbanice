@@ -417,7 +417,6 @@ namespace Urbanice.Utils
                 }
                 
                 Polygon newPoly = new Polygon(pendingEdges);
-                //OptimizePolygons(newPoly);
 
                 borderPolygons.Add(newPoly);
 
@@ -426,8 +425,6 @@ namespace Urbanice.Utils
                 
             } while (startingEdge != currentEdge);
             
-            //OptimizePolygons(borderPolygons[0]);
-
             return borderPolygons;
 
             void BuildNGon(Vertex closest, HalfEdge e3, HalfEdge e1, List<HalfEdge> pendingEdges)
@@ -443,7 +440,7 @@ namespace Urbanice.Utils
                 pendingEdges.AddRange(newBorder);
             }
 
-            void OptimizePolygons(Polygon newPoly)
+            void TryMergeLastTriangle(Polygon newPoly)
             {
                 if (borderPolygons.Count > 0 && borderPolygons[borderPolygons.Count - 1].Edges.Count == 3)
                 {

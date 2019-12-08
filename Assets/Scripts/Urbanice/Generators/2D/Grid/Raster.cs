@@ -1,36 +1,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Urbanice.Data;
+using Urbanice.Maniplulators;
 using Urbanice.Utils;
 
 namespace Urbanice.Generators._2D.Grid
 {
     public class Raster
     {
-        private int _rows;
-        private int _columns;
+        private RasterGenerator _rasterGenerator;
 
         private List<List<Vector2>> _gridPoints;
+        private List<ShapeRelaxManipulator> _manipulators;
+        private Polygon OutSideShape;
 
         public List<Polygon> Regions;
 
-        public Raster(int rows, int columns)
+        public Raster(IValueGenerator<float> random, RasterGenerator parameters, List<ShapeRelaxManipulator> manipulators)
         {
-            _rows = rows;
-            _columns = columns;
+            _rasterGenerator = parameters;
+            _manipulators = manipulators;
         }
 
-        public Rect BoundingBox { get; private set; }
-
-        public List<Polygon> Generate(List<Vector2> points)
+        public List<Polygon> Generate(List<Vector2> additionalControlPoints, Polygon outsideShape, bool connectToOutsideShape)
         {
             _gridPoints = new List<List<Vector2>>();
             Regions = new List<Polygon>();
-            BoundingBox = GeometryUtils.CalculateBoundingBox(points);
-
+            OutSideShape = outsideShape;
+            
             GenerateGridPoints();
             GenerateRegions();
 
+            if (_manipulators != null)
+            {
+                foreach (var manipluator in _manipulators)
+                {
+                    foreach (var polygon in Regions)
+                    {
+                        manipluator.Manipluate(polygon);
+                    }
+                }
+            }
+            Regions = GeometryUtils.RemoveOutsidePolygons(Regions, OutSideShape);
+
+            if (connectToOutsideShape)
+            {
+                var borderCells = GeometryUtils.CreateBorderPolygons(Regions, outsideShape);
+                Regions.AddRange(borderCells);
+            }
+            
             return Regions;
         }
 
@@ -68,12 +86,12 @@ namespace Urbanice.Generators._2D.Grid
 
         private void GenerateGridPoints()
         {
-            float segmentLength = BoundingBox.size.y / _rows;
-            for (int i = 0; i < _rows+1; i++)
+            float segmentLength = OutSideShape.BoundingBox.size.y / _rasterGenerator.GridSegments.x;
+            for (int i = 0; i < _rasterGenerator.GridSegments.x+1; i++)
             {
-                Vector2 ps =  new Vector2(BoundingBox.min.x, BoundingBox.min.y + segmentLength * i ) ;
-                Vector2 pe = new Vector2(BoundingBox.max.x, y: BoundingBox.min.y + segmentLength * i ) ;
-                var h = GeometryUtils.SubdivideLineSegment(ps,pe, _columns - 1);
+                Vector2 ps =  new Vector2(OutSideShape.BoundingBox.min.x, OutSideShape.BoundingBox.min.y + segmentLength * i ) ;
+                Vector2 pe = new Vector2(OutSideShape.BoundingBox.max.x, y: OutSideShape.BoundingBox.min.y + segmentLength * i ) ;
+                var h = GeometryUtils.SubdivideLineSegment(ps,pe, _rasterGenerator.GridSegments.y - 1);
                 
                 _gridPoints.Add(h);
             }

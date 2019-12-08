@@ -26,8 +26,8 @@ namespace Urbanice.Data
         {
             get
             {
-                if (_points.Count == Edges.Count)
-                    return _points;
+                //if (_points.Count == Edges.Count)
+                //    return _points;
                 _points = new List<Vertex>(Edges.Count);
                 foreach (var e in Edges)
                 {
@@ -124,7 +124,7 @@ namespace Urbanice.Data
             }
             // And reverse the edge list
             edges.Reverse();
-            
+            Debug.Log("FOOBAR");
             return new Polygon(edges);
             
             Vector2 InsetPoint(Vector2 point, Vector2 insetPoint)
@@ -232,7 +232,7 @@ namespace Urbanice.Data
                 break;
             }
             
-            CreateTriangles();
+            Update();
         }
         private void CreateTriangles()
         {

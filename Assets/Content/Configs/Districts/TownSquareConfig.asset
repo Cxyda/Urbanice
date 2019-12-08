@@ -15,7 +15,7 @@ MonoBehaviour:
   DistrictType: 1
   RenderColor: {r: 1, g: 0.99997795, b: 0, a: 1}
   InitialSpawnType: 10
-  PatternGenerator: {fileID: 11400000, guid: e4e6c8ee31fe0794d8b2fda7b3fe13c3, type: 2}
+  PatternGenerator: {fileID: 11400000, guid: c7bdfd917fc6a874181f45c5a6c457b1, type: 2}
   MinDistanceFromTownSquare: 0
   MaxDistanceFromTownSquare: 0.2
   MinSize: 0.1
