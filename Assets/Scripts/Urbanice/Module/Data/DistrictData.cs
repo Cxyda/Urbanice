@@ -16,15 +16,15 @@ namespace Urbanice.Module.Data
         public WardType InitialType;
 
         public List<Polygon> Neigborhoods;
-
-        private List<Vertex> _innerPoints;
+        public List<HalfEdge> BorderEdges;
+        
         public DistrictData(DistrictType type, Polygon shape)
         {
             Shape = shape;
             Type = type;
             
             Neigborhoods = new List<Polygon>();
-            _innerPoints = new List<Vertex>();
+            BorderEdges = new List<HalfEdge>();
         }
     }
 }

@@ -41,6 +41,33 @@ namespace Urbanice.Data
             {
                 return Create(new Vector2(x,y));
             }
+
+            public static Vertex GetOrCreateVertexWithinRange(Vector2 position, float maxRange)
+            {
+                float closestDistance = maxRange;
+                Vertex closestVertex = null;
+                
+                foreach (var pos in _positionPointMap.Keys)
+                {
+                    var distance = Vector2.Distance(pos, position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestVertex = _positionPointMap[pos];
+                    }
+
+                    if (closestDistance <= float.Epsilon)
+                    {
+                        break;
+                    }
+                }
+
+                if (closestVertex == null)
+                {
+                    return Create(position);
+                }
+                return closestVertex;
+            }
         }
         public static int VertexCount = 0;
         private int _index;
@@ -128,6 +155,17 @@ namespace Urbanice.Data
             return closest != null;
         }
 
+        public bool FindClosestIn(List<HalfEdge> list, out Vertex closest, params Vertex[] exclude)
+        {
+            var vertexList = new List<Vertex>();
+            foreach (var edge in list)
+            {
+                vertexList.Add(edge.Origin);
+            }
+
+            return FindClosestIn(vertexList, out closest, exclude); 
+        }
+        
         /// <summary>
         /// Returns a random vertex of the given list within distance to this vertex
         /// </summary>

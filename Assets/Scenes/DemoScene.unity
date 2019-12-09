@@ -323,8 +323,7 @@ MonoBehaviour:
   ShowNeighborhoodBorders: 1
   ShowNeighborhoodIndexes: 0
   ShowNeighborhoodBounds: 0
-  ShowNeighborhoodRegions: 0
-  ShowStreets: 0
+  ShowStreets: 1
   ShowCityPatches: 0
 --- !u!4 &1129351042
 Transform:

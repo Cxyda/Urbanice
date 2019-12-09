@@ -32,9 +32,9 @@ namespace Urbanice.Module.Layers
         public Dictionary<Polygon, DistrictData> PolygonIdToDistrictMap;
 
         [HideInInspector] public List<Polygon> Polygons;
-        [HideInInspector] public List<Vector2> Sites;
         [HideInInspector] public List<Region> Regions;
 
+        
         public void Init()
         {
             Generator.Init();
@@ -53,16 +53,16 @@ namespace Urbanice.Module.Layers
             
             // Only needed to expose data to the renderer
             Polygons = new List<Polygon>();
-            Sites = new List<Vector2>();
             Regions = new List<Region>();
             
             BuildDistrictPolygons();
             SortRegionsByDistance();
 
             GenerateDistricts();
-            SubdivideDistricts();
+            //SubdivideDistricts();
 
             DevelopDistricts();
+
         }
 
         private void DevelopDistricts()
@@ -81,6 +81,7 @@ namespace Urbanice.Module.Layers
                 var cfg = DefinitionContainer.GetDefinitionFor(district.Type);
                 cfg.PatternGenerator.Init();
 
+                // Subdivide districts in neighborhoods
                 var clonedPolygon = Polygon.CloneInsetAndFlip(district.Shape, 0.01f);
                 district.Neigborhoods = cfg.PatternGenerator.Generate(insidePoints, clonedPolygon, false);
                 clonedPolygon.Destroy();
@@ -90,12 +91,11 @@ namespace Urbanice.Module.Layers
                     return Vector2.Distance(n1.Center, district.Shape.Center) >
                            Vector2.Distance(n2.Center, district.Shape.Center) ? 1 : -1;
                 });
+
+                // GetBorders
+                district.BorderEdges = GeometryUtils.FindBorderEdges(district.Neigborhoods);
                 
                 DevelopNeighbours(district);
-
-                // Temporary
-                //Regions.AddRange(cfg.PatternGenerator.Regions);
-                //Sites.AddRange(cfg.PatternGenerator.Sites);
             }
         }
 

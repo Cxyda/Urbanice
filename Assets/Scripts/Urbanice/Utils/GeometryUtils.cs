@@ -60,26 +60,29 @@ namespace Urbanice.Utils
 
             return district;
         }
-        public static bool GetLineIntersection(Vector2 p0, Vector2 p1, 
-            Vector2 p2, Vector2 p3, out Vector2 i)
+        /// <summary>
+        /// checks if two line segments intersect
+        /// </summary>
+        public static bool GetLineIntersection(Vector2 p1start, Vector2 p1end, 
+            Vector2 p2start, Vector2 p2end, out Vector2 intersection)
         {
             float s1_x, s1_y, s2_x, s2_y;
-            s1_x = p1.x - p0.x;     s1_y = p1.y - p0.y;
-            s2_x = p3.x - p2.x;     s2_y = p3.y - p2.y;
+            s1_x = p1end.x - p1start.x;     s1_y = p1end.y - p1start.y;
+            s2_x = p2end.x - p2start.x;     s2_y = p2end.y - p2start.y;
 
             float s, t;
-            s = (-s1_y * (p0.x - p2.x) + s1_x * (p0.y - p2.y)) / (-s2_x * s1_y + s1_x * s2_y);
-            t = ( s2_x * (p0.y - p2.y) - s2_y * (p0.x - p2.x)) / (-s2_x * s1_y + s1_x * s2_y);
+            s = (-s1_y * (p1start.x - p2start.x) + s1_x * (p1start.y - p2start.y)) / (-s2_x * s1_y + s1_x * s2_y);
+            t = ( s2_x * (p1start.y - p2start.y) - s2_y * (p1start.x - p2start.x)) / (-s2_x * s1_y + s1_x * s2_y);
 
             if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
             {
                 // Collision detected
-                i = new Vector2(p0.x + (t * s1_x), p0.y + (t * s1_y));
+                intersection = new Vector2(p1start.x + (t * s1_x), p1start.y + (t * s1_y));
 
                 return true;
             }
 
-            i = Vector2.positiveInfinity;
+            intersection = Vector2.positiveInfinity;
             
             return false;
         }
@@ -126,7 +129,6 @@ namespace Urbanice.Utils
         public static Vector2 CreateLineSegmentInDirection(Vector2 p0, Vector2 direction, float segmentLength,
             float deviation = 0f)
         {
-
             direction.Normalize();
             
             var p1 = p0 + direction * segmentLength;
@@ -144,24 +146,26 @@ namespace Urbanice.Utils
             float deviation = 0f)
         {
             var direction = pn - p0;
+            if (direction.magnitude <= segmentLength)
+                return pn;
             
-            var distance = direction.magnitude;
             var p1 = CreateLineSegmentInDirection(p0, direction, segmentLength, deviation);
 
             return p1;
         }
         
-        public static List<Vector2> CreateLineTowardsPoint(Vector2 start, Vector2 tp, float maxSegmentLength, float deviation)
+        public static List<Vertex> CreateLineTowardsPoint(Vertex start, Vertex tp, float maxSegmentLength, float deviation)
         {
-            var line = new List<Vector2>();
+            var line = new List<Vertex>();
             
             line.AddMultiple(start, tp);
             var distance = Vector2.Distance(start, line[1]);
-
-            while (distance > maxSegmentLength)
+            int cnt = 0;
+            while (distance > maxSegmentLength && cnt < 10)
             {
                 line = SubdivideLine(line, deviation);
                 distance = Vector2.Distance(start, line[1]);
+                cnt++;
             }
             
             return line;
@@ -184,21 +188,25 @@ namespace Urbanice.Utils
 
             return line;
         }
-        public static List<Vector2> SubdivideLine(List<Vector2> line, float maxDeviation = 0f)
+        public static List<Vertex> SubdivideLine(List<Vertex> line, float maxDeviation = 0f)
         {
             if (line.Count == 0)
             {
                 throw new Exception("List must not be empty");
             }
-            var subdividedLine = new List<Vector2>();
+            var subdividedLine = new List<Vertex>();
             for (var n = 1; n < line.Count; n++)
             {
-                Vector2 p0 = line[n - 1];
-                Vector2 p1 = line[n];
+                Vertex p0 = line[n - 1];
+                Vertex p1 = line[n];
                 
                 Vector2 bisector = BisectSegment(p0, p1, maxDeviation);
                 
-                subdividedLine.AddMultiple(p0, bisector);
+                // Check if vertex is within range
+                //var vertex = Vertex.Factory.GetOrCreateVertexWithinRange(bisector, 0.000f);
+
+                var vertex = Vertex.Factory.Create(bisector);
+                subdividedLine.AddMultiple(p0, vertex);
             }
 
             subdividedLine.Add(line[line.Count - 1]);

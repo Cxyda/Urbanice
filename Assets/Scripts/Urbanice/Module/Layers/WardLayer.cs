@@ -32,12 +32,8 @@ namespace Urbanice.Module.Layers
         
         public void Init()
         {
-            //Generator.Init();
         }
 
-        public List<Region> Regions;
-        public List<Vector2> Sites;
-        
         public void Generate(BaseLayer parentLayer)
         {
             DistrictLayer = parentLayer as DistrictLayer;
@@ -48,8 +44,6 @@ namespace Urbanice.Module.Layers
 
             PolygonIdToNeighborhoodMap = new Dictionary<Polygon, WardData>();
             Neighborhoods = new List<Polygon>();
-            Regions = new List<Region>();
-            Sites = new List<Vector2>();
 
             DevelopNeighborhoods();
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 using Urbanice.Data;
 using Urbanice.Generators;
 using Urbanice.Generators._1D.Random;
+using Urbanice.Module.Data;
 using Urbanice.Utils;
 
 namespace Urbanice.Module.Layers
@@ -23,7 +24,7 @@ namespace Urbanice.Module.Layers
         public int StreetCount = 2;
         public float MinStreetpointDistance = .0f;
 
-        public Graph<Vector2> StreetGraph;
+        public Graph<Vertex> StreetGraph;
         
         public DistrictLayer DistrictLayer { get; private set; }
 
@@ -35,15 +36,14 @@ namespace Urbanice.Module.Layers
         public void Generate(BaseLayer parentLayer)
         {
             DistrictLayer = parentLayer as DistrictLayer;
-            StreetGraph = new Graph<Vector2>();
+            StreetGraph = new Graph<Vertex>();
 
-            
             BuildStreetGraph();
 
             List<Vertex> controlPoints = DistrictLayer.DistrictControlPoints.Values.ToList();
             for (int i = 0; i < StreetCount; i++)
             {
-                var street = new List<Vector2>();
+                var street = new List<Vertex>();
 
                 // Generate points
                 var pointOnBounds = CreatePointOnBounds();
@@ -52,31 +52,103 @@ namespace Urbanice.Module.Layers
                 float maxSegmentLength = StreetSmoothness == 0 ? 1f : 0.5f / StreetSmoothness;
                 if (closestPointToStart.HasValue)
                 {
-                    var connection1 = GeometryUtils.CreateLineTowardsPoint(pointOnBounds, closestPointToStart.Value, maxSegmentLength, StreetNoise);
-                    street.AddRange(connection1);
+                    //var connection1 = GeometryUtils.CreateLineTowardsPoint(pointOnBounds, closestPointToStart.Value, maxSegmentLength, StreetNoise);
+                    //street.AddRange(connection1);
                     AddLineToGraph(street);
                 }
-
-                
             }
         }
 
         private void BuildStreetGraph()
         {
-            foreach (var d in DistrictLayer.PolygonIdToDistrictMap.Values)
+            foreach (DistrictData d in DistrictLayer.PolygonIdToDistrictMap.Values)
             {
-                for (int i = 0; i < d.Shape.Points.Count; i++)
-                {
-                    var p0 = d.Shape.Points[i];
-                    var p1 = d.Shape.Points[(i+1) % d.Shape.Points.Count];
-
-                    var streetTowardsPoint = GeometryUtils.CreateLineTowardsPoint(p0, p1, 0.5f/ StreetSmoothness, StreetNoise);
-                    AddLineToGraph(streetTowardsPoint, false);
-                }
+                BuildStreetOnDistrictEdges(d);
+                BuildCrossRoads(d);
             }
         }
 
-        private void AddLineToGraph(List<Vector2> line, bool loop = false)
+        private void BuildStreetOnDistrictEdges(DistrictData d)
+        {
+            for (int i = 0; i < d.Shape.Points.Count; i++)
+            {
+                var p0 = d.Shape.Points[i];
+                var p1 = d.Shape.Points[(i + 1) % d.Shape.Points.Count];
+
+                var streetTowardsPoint = GeometryUtils.CreateLineTowardsPoint(p0, p1, 0.5f / StreetSmoothness, 0f);
+                AddLineToGraph(streetTowardsPoint, false);
+            }
+        }
+
+        private void BuildCrossRoads(DistrictData d)
+        {
+            // find crossroads
+            foreach (Vertex cp in d.Shape.Points)
+            {
+
+                float crossroadProbability = 3 * GlobalPRNG.Next() / (cp.Edges.Count - 3);
+                if (crossroadProbability < .025f)
+                    continue;
+
+                Vector2 bisectrix = d.Shape.GetBisectrix(cp);
+                Vector2 point = GeometryUtils.CreateLineSegmentInDirection(cp, bisectrix, 0.5f / StreetSmoothness,
+                    StreetNoise);
+
+                StreetGraph.AddNode(cp);
+                bool intersectionFound = false;
+
+                // Check for borderintersection
+                if (CheckForLineIntersection(cp, point, d.Neigborhoods, out Vector2 intersection))
+                {
+                    point = intersection;
+                    intersectionFound = true;
+                }
+
+                Vertex vertex = Vertex.Factory.GetOrCreateVertexWithinRange(point, 0.02f);
+                StreetGraph.AddNode(vertex);
+                StreetGraph.ConnectNodes(cp, vertex);
+
+                if (intersectionFound) continue;
+
+                Vertex lastVertex = vertex;
+                do
+                {
+                    // continue streetbuilding
+                    lastVertex.FindClosestIn(d.BorderEdges, out Vertex closestPoint);
+                    Vector2 newPoint = GeometryUtils.CreateLineSegmentTowardsPoint(lastVertex, closestPoint,
+                        0.5f / StreetSmoothness,
+                        StreetNoise);
+                    Vertex v = Vertex.Factory.GetOrCreateVertexWithinRange(newPoint, 0.01f);
+
+                    StreetGraph.AddNode(v);
+                    StreetGraph.ConnectNodes(lastVertex, v);
+
+                    lastVertex = v;
+                    if (v == closestPoint)
+                        break;
+                } while (true);
+            }
+        }
+
+        private bool CheckForLineIntersection(Vector2 p1Start, Vector2 p1End, List<Polygon> polygons, out Vector2 intersection)
+        {
+            foreach (var p in polygons)
+            {
+                foreach (var edge in p.Edges)
+                {
+                    if (GeometryUtils.GetLineIntersection(p1Start, p1End, edge.Origin, edge.Destination,
+                        out intersection))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            intersection = Vector2.positiveInfinity;
+            return false;
+        }
+
+        private void AddLineToGraph(List<Vertex> line, bool loop = false)
         {
             for (int i = 0; i < line.Count; i++)
             {

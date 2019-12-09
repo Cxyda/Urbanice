@@ -19,7 +19,7 @@ namespace Urbanice.Module.Containers
         public CityLayer CityLayer;
         public DistrictLayer DistrictLayer;
         public WardLayer WardLayer;
-        [HideInInspector]public PrimaryStreetLayer PrimaryStreetLayer;
+        public PrimaryStreetLayer PrimaryStreetLayer;
 
         private void CleanupSerializedData()
         {
@@ -40,29 +40,37 @@ namespace Urbanice.Module.Containers
             WardLayer.Init();
             Stopwatch sw = new Stopwatch();
             sw.Start();
+            
             TerrainData.Generate(null);
 
             if (CityLayer.Visibility == LayerVisibility.Generate)
             {
-                Debug.Log($"+++++++++++ Generating CityLayer +++++++++++");
+                Debug.Log($"+++++++++++ Generating City+++++++++++");
                 CityLayer.Generate(null);
                 Debug.Log($"----------- DONE! -----------");
             }
 
             if (DistrictLayer.Visibility == LayerVisibility.Generate)
             {
-                Debug.Log($"+++++++++++ Generating DistrictLayer +++++++++++");
+                Debug.Log($"+++++++++++ Generating Districts +++++++++++");
                 DistrictLayer.Generate(CityLayer);
                 Debug.Log($"----------- DONE! -----------");
             }
 
             if (WardLayer.Visibility == LayerVisibility.Generate)
             {
-                Debug.Log($"+++++++++++ Generating NeighborhoodLayer +++++++++++");
+                Debug.Log($"+++++++++++ Generating Neighborhoods +++++++++++");
                 WardLayer.Generate(DistrictLayer);
                 Debug.Log($"----------- DONE! -----------");
             }
-
+            if (PrimaryStreetLayer.Visibility == LayerVisibility.Generate)
+            {
+                Debug.Log($"+++++++++++ Generating Streets +++++++++++");
+                PrimaryStreetLayer.Generate(DistrictLayer);
+                Debug.Log($"----------- DONE! -----------");
+            }
+            
+            
             sw.Stop();
             Debug.Log($"GenerationTime: {sw.Elapsed.Milliseconds} ms" );
         }

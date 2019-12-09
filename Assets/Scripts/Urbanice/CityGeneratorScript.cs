@@ -11,7 +11,7 @@ namespace Urbanice
     
         private void OnValidate()
         {
-            GenerateCity();
+            //GenerateCity();
         }
     
         void Update()

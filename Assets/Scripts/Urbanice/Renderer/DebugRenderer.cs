@@ -36,7 +36,6 @@ namespace Urbanice.Renderer
         public bool ShowNeighborhoodBorders;
         public bool ShowNeighborhoodIndexes;
         public bool ShowNeighborhoodBounds;
-        public bool ShowNeighborhoodRegions = false;
         [Space]
 
         public bool ShowStreets;
@@ -46,6 +45,7 @@ namespace Urbanice.Renderer
         {
             DrawDistrictPattern();
             DrawNeighborhoodPatterns();
+            DrawStreetGraph(CityConfiguration.PrimaryStreetLayer.StreetGraph, Color.magenta);
             
             DrawCityElements();
 
@@ -181,25 +181,6 @@ namespace Urbanice.Renderer
                         cnt++;
                     }
 
-                    if (ShowNeighborhoodRegions && CityConfiguration.WardLayer.Regions != null)
-                    {
-                        foreach (var region in CityConfiguration.WardLayer.Regions)
-                        {
-                            foreach (var tr in region.Triangles)
-                            {
-                                Gizmos.color = Color.blue;
-
-                                Gizmos.DrawSphere(tr.Center, 0.001f);
-
-                                Gizmos.color = Color.green;
-                                
-                                
-                                Gizmos.DrawLine(tr.P1, tr.P2);
-                                Gizmos.DrawLine(tr.P2, tr.P3);
-                                Gizmos.DrawLine(tr.P3, tr.P1);
-                            }
-                        }
-                    }
                     if (ShowNeighborhoodBounds)
                     {
                         // Draw Bounding Box of the neighborhood
@@ -270,7 +251,7 @@ namespace Urbanice.Renderer
         
         private void DrawStreetGraph(Graph<Vertex> graph, Color c)
         {
-            if(!ShowStreets)
+            if(!ShowStreets || graph == null)
                 return;
 
             Gizmos.color = c;

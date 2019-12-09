@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Urbanice.Data
 {
+    [Serializable]
     public class Graph<T>
     {
         public List<T> Nodes => new List<T>(_nodes);

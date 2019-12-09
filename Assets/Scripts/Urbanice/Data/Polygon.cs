@@ -320,7 +320,7 @@ namespace Urbanice.Data
         }
 
         /// <summary>
-        /// Returns the bisectrix of two edges connected to this edge
+        /// Returns the normalized bisectrix vector of two edges connected to this edge
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
@@ -331,10 +331,9 @@ namespace Urbanice.Data
                 if(Edges[n].Origin != p)
                     continue;
 
-                int n1 = MathUtils.Mod(n - 1, Edges.Count);
-                Vector2 p0 = Edges[n1].Origin;
-                Vector2 p1 = Edges[n].Destination;
-                return p0 + p1;
+                Vector2 p0 = Edges[n].Destination - p;
+                Vector2 p1 = Edges[n].PreviousEdge.Origin - p;
+                return (p0.normalized + p1.normalized).normalized;
             }
             // Point is not a polygon point, return center direction for now
             return Center - p;
