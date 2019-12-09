@@ -4,6 +4,9 @@ using Urbanice.Generators._1D;
 
 namespace Urbanice.Module.Data.Utility
 {
+    /// <summary>
+    /// Basic generic type to switch between fixed values or ranged values
+    /// </summary>
     public abstract class ValueOrRange<T, V>
     {
         [Range(0, 10)] public T FixedValue;
@@ -16,6 +19,10 @@ namespace Urbanice.Module.Data.Utility
 
         public abstract V GetValue();
     }
+    
+    /// <summary>
+    /// Typed to <int,int> because unity cannot serialize generic types 
+    /// </summary>
     [Serializable]
     public class IntValueOrRange : ValueOrRange<int, int>
     {
@@ -28,6 +35,9 @@ namespace Urbanice.Module.Data.Utility
             return (int) (RandomGenerator.Generate() * delta) + MinValue;
         }
     }
+    /// <summary>
+    /// Typed to <float,float> because unity cannot serialize generic types 
+    /// </summary>
     [Serializable]
     public class FloatValueOrRange : ValueOrRange<float, float>
     {
@@ -40,6 +50,9 @@ namespace Urbanice.Module.Data.Utility
             return (RandomGenerator.Generate() * delta) + MinValue;
         }
     }
+    /// <summary>
+    /// Typed to <int,float> because unity cannot serialize generic types 
+    /// </summary>
     [Serializable]
     public class IFValueOrRange : ValueOrRange<int, float>
     {

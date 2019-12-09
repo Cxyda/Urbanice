@@ -6,6 +6,9 @@ using Urbanice.Module.Data.Utility;
 
 namespace Urbanice.Module.Districts
 {
+    /// <summary>
+    /// This class provides all current parameters to manipulate District generateion process
+    /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/Configs/Create new District Config", fileName = "newDistrictConfig", order = 1)]
     public class DistrictConfig : ScriptableObject
     {

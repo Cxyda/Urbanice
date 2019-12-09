@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Urbanice.Utils
 {
     /// <summary>
-    /// TODO:
+    /// This class provides <see cref="List"/> extension functionality for easier use
     /// </summary>
     public static class ListExtensions
     {

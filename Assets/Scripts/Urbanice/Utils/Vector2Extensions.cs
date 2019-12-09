@@ -4,6 +4,9 @@ using Urbanice.Data;
 
 namespace Urbanice.Utils
 {
+    /// <summary>
+    /// This class provides <see cref="Vector2"/> extension functionality for easier use
+    /// </summary>
     public static class Vector2Extensions
     {
         public static Vector2 MovePointInDirectionOfPoint(this Vector2 origin, Vector2 targetPoint, float distance = 0.5f)

@@ -505,7 +505,7 @@ namespace Urbanice.Utils
                         if(retriedOnce)
                             throw new Exception($"there is no path connecting start ({start.Index}) to end ({target.Index}) only using open edges");
                         
-                        // TODO: this would fix finding edge paths in the wrong direction
+                        // this would fix finding edge paths in the wrong direction
                         //if (connectingEdge.Other() != null)
                         //{
                         //    // Try other direction -> reset state

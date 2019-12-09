@@ -10,7 +10,7 @@ using Urbanice.Utils;
 namespace Urbanice.Renderer
 {
     /// <summary>
-    /// TODO:
+    /// This class is responsible to draw debug gizmos zo the unity scene. Gizmos can be enabled or disabled on the CityRenderer object 
     /// </summary>
     [ExecuteInEditMode]
     public class DebugRenderer : MonoBehaviour
@@ -48,7 +48,6 @@ namespace Urbanice.Renderer
             DrawNeighborhoodPatterns();
             
             DrawCityElements();
-            DrawCityCores();
 
             if (CityConfiguration == null || CityConfiguration.PrimaryStreetLayer == null ||
                 CityConfiguration.PrimaryStreetLayer.StreetGraph == null)
@@ -216,19 +215,6 @@ namespace Urbanice.Renderer
             }
         }
 
-        private void DrawCityCores()
-        {
-            var c = Gizmos.color;
-            Gizmos.color = Color.yellow;
-
-            foreach (var sp in CityConfiguration.CityLayer.CityCores)
-            {
-                Gizmos.DrawSphere(sp, .002f);
-
-            }
-            Gizmos.color = c;
-        }
-
         private void DrawStreetControlPoints()
         {
             for (int i = 1; i < ((ICollection) CityConfiguration.PrimaryStreetLayer.StreetMesh.vertices).Count; i++)
@@ -243,16 +229,16 @@ namespace Urbanice.Renderer
 
         private void DrawCityElements()
         {
-            if(!ShowCityCore)
-                return;
-            
-            foreach (var core in CityConfiguration.CityLayer.CityCores)
+            if(ShowCityCore)
             {
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(core, .005f);
+                foreach (var core in CityConfiguration.CityLayer.CityCores)
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawSphere(core, .005f);
 
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawSphere(core, .002f);
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(core, .002f);
+                }
             }
 
             if (ShowCityIndexes && CityConfiguration.CityLayer.CityCanvas != null)

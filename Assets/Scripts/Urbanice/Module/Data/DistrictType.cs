@@ -1,5 +1,9 @@
 namespace Urbanice.Module.Data
 {
+    /// <summary>
+    /// DistrictType enum
+    /// Modify this to add more districts!
+    /// </summary>
     public enum DistrictType
     {
         Invalid = 0,

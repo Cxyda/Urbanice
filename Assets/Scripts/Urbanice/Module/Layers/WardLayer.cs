@@ -129,7 +129,7 @@ namespace Urbanice.Module.Layers
             {
                 wardWeights.RemoveAll(ft);
             }
-            // TODO : Apply filters
+            // TODO : Apply filters later
 
             var value = GlobalPRNG.Next();
             var type = wardWeights.GetElement(value);

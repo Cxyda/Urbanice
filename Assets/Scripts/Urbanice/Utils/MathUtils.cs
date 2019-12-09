@@ -6,8 +6,14 @@ using Urbanice.Generators._1D.Random;
 
 namespace Urbanice.Utils
 {
+    /// <summary>
+    /// This class provides Math utility functions
+    /// </summary>
     public static class MathUtils
     {
+        /// <summary>
+        /// calculates cross product in 2D
+        /// </summary>
         public static float Cross2D(HalfEdge e, Vector2 p)
         {
             var dxc = p.x - e.Origin.x;
@@ -18,6 +24,9 @@ namespace Urbanice.Utils
 
             return dxc * dyl - dyc * dxl;
         }
+        /// <summary>
+        /// Generates random points around a given point
+        /// </summary>
         public static List<Vector2> GeneratePointsAround(Vector2 point, int pointAmount, float maxRadius, float minDistance = 0f)
         {
             var points = new List<Vector2>(pointAmount);
@@ -51,6 +60,9 @@ namespace Urbanice.Utils
             return points;
         }
         
+        /// <summary>
+        /// clamps and signs a given value to -1, 0 or +1
+        /// </summary>
         public static int Sign(float f)
         {
             return Math.Abs(f) < float.Epsilon ? 0 : (f < 0 ? -1 : 1);

@@ -44,7 +44,8 @@ namespace Urbanice.Module.Layers
                 var x = CityCorePlacement.Evaluate(GlobalPRNG.Next());
                 var y = CityCorePlacement.Evaluate(GlobalPRNG.Next());
             
-                // TODO: Add filters
+                // TODO : Apply filters later
+
                 _generatedCityCores.Add(new Vector2(Mathf.Lerp(BoundingBox.xMin, BoundingBox.xMax, x),
                     Mathf.Lerp(BoundingBox.yMin, BoundingBox.yMax, y)));
             }

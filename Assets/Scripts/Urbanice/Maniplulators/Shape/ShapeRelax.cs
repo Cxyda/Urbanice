@@ -5,7 +5,7 @@ using Urbanice.Data;
 namespace Urbanice.Maniplulators.Shape
 {
     /// <summary>
-    /// TODO:
+    /// This class implements a simple ShapeRelax algorithm
     /// </summary>
     public class ShapeRelax
     {
@@ -139,9 +139,6 @@ namespace Urbanice.Maniplulators.Shape
                 
                 input.Points[n1].x = newP2.x;
                 input.Points[n1].y = newP2.y;
-                
-                // TODO:
-                var length = input.Edges[n].Length;
             }
 
             return input;

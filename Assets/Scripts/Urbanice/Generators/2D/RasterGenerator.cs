@@ -7,6 +7,9 @@ using Urbanice.Maniplulators;
 
 namespace Urbanice.Generators._2D
 {
+    /// <summary>
+    /// Raster pattern generator class serves as a container for the actual generator instance
+    /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/Generators/Patterns/Raster", fileName = "new Raster Generator", order = 2)]
     public class RasterGenerator : PatternGenerator, IPatternGenerator<Vector2>
     {

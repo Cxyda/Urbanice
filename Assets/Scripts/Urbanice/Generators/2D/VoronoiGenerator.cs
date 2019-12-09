@@ -6,8 +6,10 @@ using Urbanice.Maniplulators;
 
 namespace Urbanice.Generators._2D
 {
+    /// <summary>
+    /// Voronoi pattern generator class serves as a container for the actual generator instance
+    /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/Generators/Patterns/Voronoi", fileName = "new Voronoi Generator", order = 1)]
-
     public class VoronoiGenerator : PatternGenerator
     {
         private SimpleVoronoi.SimpleVoronoi _voronoi;
@@ -27,8 +29,6 @@ namespace Urbanice.Generators._2D
         public override List<Polygon> Generate(List<Vector2> points, Polygon outsideShape, bool connectToOutside)
         {
             GeneratedPolygons = _voronoi.Generate(points, outsideShape, connectToOutside);
-            Regions = _voronoi.Regions;
-            Sites = _voronoi.Sites;
             
             return GeneratedPolygons;
         }

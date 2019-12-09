@@ -2,6 +2,9 @@ using System;
 
 namespace Urbanice.Module.Data
 {
+    /// <summary>
+    /// Example enum for terrain types, currently not used
+    /// </summary>
     [Flags]
     public enum TerrainType
     {

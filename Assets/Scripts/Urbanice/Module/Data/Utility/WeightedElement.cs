@@ -2,6 +2,10 @@ using System;
 
 namespace Urbanice.Module.Data.Utility
 {
+    /// <summary>
+    /// Generic WeightedElement class
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class WeightedElement<T>
     {
         public T Element;

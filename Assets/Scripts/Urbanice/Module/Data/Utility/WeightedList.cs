@@ -4,6 +4,9 @@ using UnityEngine.UIElements;
 
 namespace Urbanice.Module.Data.Utility
 {
+    /// <summary>
+    /// Generic WeightedList to manage weighted elements
+    /// </summary>
     public class WeightedList<U, T> where U : WeightedElement<T> where T : Enum
     {
         private int _overallWeight;

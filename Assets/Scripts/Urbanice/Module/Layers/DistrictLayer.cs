@@ -82,7 +82,7 @@ namespace Urbanice.Module.Layers
                 cfg.PatternGenerator.Init();
 
                 var clonedPolygon = Polygon.CloneInsetAndFlip(district.Shape, 0.01f);
-                district.Neigborhoods = cfg.PatternGenerator.Generate(insidePoints, clonedPolygon, true);
+                district.Neigborhoods = cfg.PatternGenerator.Generate(insidePoints, clonedPolygon, false);
                 clonedPolygon.Destroy();
                 
                 district.Neigborhoods.Sort((n1, n2) =>
@@ -149,7 +149,7 @@ namespace Urbanice.Module.Layers
             if (Polygons.Count == 0)
                 return;
             DistrictType type = DistrictType.TownSqaure;
-            // TODO : having this here agin is ugly, refactor later!
+            // TODO : having this here again is ugly, refactor later!
             var config = DefinitionContainer.GetDefinitionFor(type);
 
             var townSquare = new DistrictData(type, Polygons[0]);
@@ -222,7 +222,7 @@ namespace Urbanice.Module.Layers
             {
                 districtWeights.RemoveAll(ft);
             }
-            // TODO : Apply filters
+            // TODO : Apply filters later
 
             var value = GlobalPRNG.Next();
             var type = districtWeights.GetElement(value);

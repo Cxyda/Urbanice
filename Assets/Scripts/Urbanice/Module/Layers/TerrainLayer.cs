@@ -4,6 +4,9 @@ using Urbanice.Module.Data;
 
 namespace Urbanice.Module.Layers
 {
+    /// <summary>
+    /// This class is just an example. Doesn't do anything in the current state of the prototype'
+    /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/DataLayers/Create new Terrain Layer", fileName = "newTerrainLayer", order = 1)]
     public class TerrainLayer : BaseLayer, IUrbaniceLayer
     {
@@ -15,14 +18,18 @@ namespace Urbanice.Module.Layers
 
         public void Init()
         {
-            
+            // nothing to do here yet
         }
 
         public void Generate(BaseLayer parentLayer)
         {
-            // TODO
+            // nothing to do here yet
         }
     }
+    
+    /// <summary>
+    /// Enum Flags attribute to use bit masks for terrain properties
+    /// </summary>
     public class EnumFlagsAttribute : PropertyAttribute
     {
         public EnumFlagsAttribute() { }

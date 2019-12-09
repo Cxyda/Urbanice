@@ -49,8 +49,6 @@ namespace Urbanice.Generators._2D.SimpleVoronoi
             BuildRegions(points, OutSideShape);
             PartitionRegions();
             
-            // TODO Replace relax with manipulators
-            //Relax();
             Sites.Sort((p1, p2) => MathUtils.Sign(Vector2.SqrMagnitude(p1) - Vector2.SqrMagnitude(p2)));
 
             CreateInnerCells();

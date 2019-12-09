@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Urbanice.Utils
 {
+    /// <summary>
+    /// This class provides <see cref="Gizmos"/> extension functionality for easier use
+    /// </summary>
     public static class ExtendedGizmos
     {
         private static float _arrowHeadAngle = 20f;

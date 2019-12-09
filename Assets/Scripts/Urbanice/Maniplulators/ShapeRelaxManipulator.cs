@@ -4,6 +4,9 @@ using Urbanice.Maniplulators.Shape;
 
 namespace Urbanice.Maniplulators
 {
+    /// <summary>
+    /// Simple Relax manipulator, can be extended later with better functionality
+    /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/Manipulators/Shape/Relax", fileName = "new ShapeRelax Manipulator", order = 1)]
     public class ShapeRelaxManipulator : ScriptableObject, IShapeManipulator
     {

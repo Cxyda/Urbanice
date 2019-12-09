@@ -1,5 +1,9 @@
 namespace Urbanice.Module.Data
 {
+    /// <summary>
+    /// WardType enum
+    /// Modify this to add more wards!
+    /// </summary>
     public enum WardType
     {
         Invalid = 0,

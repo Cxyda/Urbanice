@@ -9,6 +9,9 @@ using Urbanice.Module.Districts;
 
 namespace Urbanice.Renderer
 {
+    /// <summary>
+    /// This class is responsible to draw the generated meshes to the unity scene. Meshes can be enabled or disabled on the CityRenderer object 
+    /// </summary>
     public class MeshRenderer: MonoBehaviour
     {
         public CityDefinitionContainer CityConfiguration;

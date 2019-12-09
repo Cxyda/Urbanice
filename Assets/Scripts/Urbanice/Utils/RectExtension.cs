@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Urbanice.Utils
 {
+    /// <summary>
+    /// This class provides <see cref="Rect"/> extension functionality for easier use
+    /// </summary>
     public static class RectExtension
     {
         public static bool Contains(this Rect rect1, Rect rect2)
