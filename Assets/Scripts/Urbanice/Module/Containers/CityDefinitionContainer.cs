@@ -19,7 +19,7 @@ namespace Urbanice.Module.Containers
         public CityLayer CityLayer;
         public DistrictLayer DistrictLayer;
         public WardLayer WardLayer;
-        public PrimaryStreetLayer PrimaryStreetLayer;
+        public StreetLayer PrimaryStreetLayer;
 
         private void CleanupSerializedData()
         {

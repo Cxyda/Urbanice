@@ -14,7 +14,7 @@ namespace Urbanice.Module.Layers
     /// TODO:
     /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/DataLayers/Create new Street Layer", fileName = "newStreetLayer", order = 3)]
-    public class PrimaryStreetLayer : BaseLayer, IUrbaniceLayer
+    public class StreetLayer : BaseLayer, IUrbaniceLayer
     {
         public float StreetNoise = .25f;
         [Range(0, 10)]
@@ -114,7 +114,10 @@ namespace Urbanice.Module.Layers
                 do
                 {
                     // continue streetbuilding
-                    lastVertex.FindClosestIn(d.BorderEdges, out Vertex closestPoint);
+                    if (!lastVertex.FindClosestIn(d.BorderEdges, out Vertex closestPoint))
+                    {
+                        break;
+                    }
                     Vector2 newPoint = GeometryUtils.CreateLineSegmentTowardsPoint(lastVertex, closestPoint,
                         0.5f / StreetSmoothness,
                         StreetNoise);
