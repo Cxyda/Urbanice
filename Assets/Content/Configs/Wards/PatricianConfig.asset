@@ -14,20 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WardType: 21
   DistrictTypes: 0100000002000000
-  RenderColor: {r: 0.18764424, g: 1, b: 0, a: 1}
-  NeighboringDistricts:
-  - Element: 21
-    Weight: 10
+  RenderColor: {r: 0.92993367, g: 1, b: 0, a: 1}
+  NeighboringWards:
   - Element: 15
     Weight: 20
+  - Element: 21
+    Weight: 10
+  - Element: 21
+    Weight: 5
+  - Element: 32
+    Weight: 3
   - Element: 16
     Weight: 0
   - Element: 11
     Weight: 0
   - Element: 12
     Weight: 0
-  - Element: 21
-    Weight: 5
-  - Element: 32
-    Weight: 3
-

@@ -124,7 +124,6 @@ namespace Urbanice.Data
             }
             // And reverse the edge list
             edges.Reverse();
-            Debug.Log("FOOBAR");
             return new Polygon(edges);
             
             Vector2 InsetPoint(Vector2 point, Vector2 insetPoint)

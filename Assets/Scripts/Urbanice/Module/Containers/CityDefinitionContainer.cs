@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using UnityEngine;
 using Urbanice.Data;
 using Urbanice.Generators._1D.Random;
 using Urbanice.Module.Data;
 using Urbanice.Module.Layers;
+using Debug = UnityEngine.Debug;
 using TerrainLayer = Urbanice.Module.Layers.TerrainLayer;
 
 namespace Urbanice.Module.Containers
@@ -36,7 +38,8 @@ namespace Urbanice.Module.Containers
             CityLayer.Init();
             DistrictLayer.Init();
             WardLayer.Init();
-            
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             TerrainData.Generate(null);
 
             if (CityLayer.Visibility == LayerVisibility.Generate)
@@ -60,11 +63,8 @@ namespace Urbanice.Module.Containers
                 Debug.Log($"----------- DONE! -----------");
             }
 
-
-
-
-
-            //PrimaryStreetLayer.Generate(DistrictLayer);
+            sw.Stop();
+            Debug.Log($"GenerationTime: {sw.Elapsed.Milliseconds} ms" );
         }
     }
 }

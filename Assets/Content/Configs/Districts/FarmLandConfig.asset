@@ -25,11 +25,11 @@ MonoBehaviour:
     Weight: 10
   - Element: 3
     Weight: 5
-  - Element: 2
-    Weight: 1
   - Element: 4
     Weight: 5
-  - Element: 1
-    Weight: 0
+  - Element: 2
+    Weight: 1
   - Element: 7
     Weight: 1
+  - Element: 1
+    Weight: 0

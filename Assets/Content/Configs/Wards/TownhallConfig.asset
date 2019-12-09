@@ -15,7 +15,11 @@ MonoBehaviour:
   WardType: 16
   DistrictTypes: 01000000
   RenderColor: {r: 0.5568628, g: 0.73049736, b: 0.9137255, a: 1}
-  NeighboringDistricts:
+  NeighboringWards:
+  - Element: 21
+    Weight: 10
+  - Element: 15
+    Weight: 5
   - Element: 10
     Weight: 0
   - Element: 12
@@ -26,8 +30,3 @@ MonoBehaviour:
     Weight: 0
   - Element: 12
     Weight: 0
-  - Element: 21
-    Weight: 10
-  - Element: 15
-    Weight: 5
-

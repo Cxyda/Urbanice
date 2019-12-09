@@ -21,14 +21,14 @@ MonoBehaviour:
   MinSize: 0.1
   MaxSize: 8.32
   NeighboringDistricts:
-  - Element: 1
-    Weight: 0
-  - Element: 3
-    Weight: 1
   - Element: 2
     Weight: 10
   - Element: 4
     Weight: 8
+  - Element: 3
+    Weight: 1
+  - Element: 1
+    Weight: 0
   - Element: 7
     Weight: 0
   - Element: 5
