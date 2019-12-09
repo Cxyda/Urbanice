@@ -64,7 +64,7 @@ namespace Urbanice.Module.Layers
             foreach (DistrictData d in DistrictLayer.PolygonIdToDistrictMap.Values)
             {
                 BuildStreetOnDistrictEdges(d);
-                BuildCrossRoads(d);
+                //BuildCrossRoads(d);
             }
         }
 

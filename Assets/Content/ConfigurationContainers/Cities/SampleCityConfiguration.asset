@@ -17,4 +17,4 @@ MonoBehaviour:
   CityLayer: {fileID: 11400000, guid: f8ba625cd988ef140b8e92349b1e9c16, type: 2}
   DistrictLayer: {fileID: 11400000, guid: d5209dea44e120c4f866471fa39f83d9, type: 2}
   WardLayer: {fileID: 11400000, guid: ccf1266df2ec72f4da16ed8c21b5fac7, type: 2}
- 
+  PrimaryStreetLayer: {fileID: 11400000, guid: ffaeef0b912e44d4d9365e0a24fd1a2c, type: 2}

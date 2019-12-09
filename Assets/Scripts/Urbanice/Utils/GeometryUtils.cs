@@ -394,70 +394,57 @@ namespace Urbanice.Utils
 
             currentEdge.Origin.FindClosestIn(innerBorderPoints, out Vertex initialVertex);
             
-            Vertex lastVertex = initialVertex;
+            Vertex lastInnerVertex = initialVertex;
+            List<HalfEdge> edges = new List<HalfEdge>();
 
             do
             {
-                List<HalfEdge> pendingEdges = new List<HalfEdge>();
 
-                Vertex currentEdgeOrigin = Vertex.Factory.Create(currentEdge.Origin);
-                var e1 = new HalfEdge(lastVertex, currentEdgeOrigin);
-
-                Vertex currentEdgeDestination = Vertex.Factory.Create(currentEdge.Destination);
-                var e2 = new HalfEdge(e1.Destination, currentEdgeDestination, e1);
-
-                currentEdge.Destination.FindClosestIn(innerBorderPoints, out Vertex closest);
-                var e3 = new HalfEdge(e2.Destination, closest, e2);
-
-                pendingEdges.AddMultiple(e1, e2, e3);
-
-                if (lastVertex != closest)
-                {
-                    BuildNGon(closest, e3, e1, pendingEdges);
-                }
-                else
-                {
-                    // this is a triangle shape
-                    e1.PreviousEdge = e3;
-                    e3.NextEdge = e1;
-                    // Temporary hack to quickly inverse direction
-                    e1.Flip(); e2.Flip(); e3.Flip();
-                }
-                
-                Polygon newPoly = new Polygon(pendingEdges);
-
+                var newPoly = BuildPolygon();
                 borderPolygons.Add(newPoly);
-
-                lastVertex = closest;
-                currentEdge = currentEdge.NextEdge;
+                edges = new List<HalfEdge>();
                 
             } while (startingEdge != currentEdge);
-            
-            return borderPolygons;
 
-            void BuildNGon(Vertex closest, HalfEdge e3, HalfEdge e1, List<HalfEdge> pendingEdges)
+            Polygon BuildPolygon()
             {
-                // Build nGon (n > 3)
-                List<HalfEdge> newBorder = GetShorestBorderConnection(closest, lastVertex, innerBorderPoints);
-                e3.NextEdge = newBorder[0];
-                newBorder[newBorder.Count - 1].PreviousEdge = e3;
-
-                e1.PreviousEdge = newBorder[newBorder.Count - 1];
-                newBorder[newBorder.Count - 1].NextEdge = e1;
-
-                pendingEdges.AddRange(newBorder);
-            }
-            void TryMergeLastTriangle(Polygon newPoly)
-            {
-                if (borderPolygons.Count > 0 && borderPolygons[borderPolygons.Count - 1].Edges.Count == 3)
+                bool foundPolygon = false;
+                var e = new HalfEdge(lastInnerVertex, currentEdge.Origin);
+                edges.Add(e);
+                
+                do
                 {
-                    // Combine last triangle shape to the current polygon
-                    var triangle = borderPolygons[borderPolygons.Count - 1];
-                    newPoly.CombinePolygon(triangle);
+                    Vertex currentEdgeOrigin = Vertex.Factory.Create(currentEdge.Origin);
+                    Vertex currentEdgeDestination = Vertex.Factory.Create(currentEdge.Destination);
+                
+                    e = new HalfEdge(currentEdgeOrigin, currentEdgeDestination);
+                    edges.Add(e);
 
-                    borderPolygons.Remove(triangle);
+                    currentEdge.Destination.FindClosestIn(innerBorderPoints, out Vertex closest);
+
+                    if (lastInnerVertex != closest)
+                    {
+                        foundPolygon = true;
+                        e = new HalfEdge(currentEdge.Destination, closest);
+                        edges.Add(e);
+                        List<HalfEdge> newBorder = GetShorestBorderConnection(closest, lastInnerVertex, innerBorderPoints);
+                        edges.AddRange(newBorder);
+                        lastInnerVertex = closest;
+                    }
+                    currentEdge = currentEdge.NextEdge;
+
+                } while (startingEdge != currentEdge && !foundPolygon);
+
+                for (int n = 0; n < edges.Count; n++)
+                {
+                    int n1 = (n + 1) % edges.Count;
+                    edges[n].NextEdge = edges[n1];
+                    edges[n1].PreviousEdge = edges[n];
                 }
+                return new Polygon(edges);
             }
+
+            return borderPolygons;
         }
 
         /// <summary>

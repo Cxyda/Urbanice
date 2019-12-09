@@ -315,7 +315,7 @@ MonoBehaviour:
   ShowCityIndexes: 0
   ShowDistricts: 1
   ShowDistrictCenters: 0
-  ShowDistrictBorders: 1
+  ShowDistrictBorders: 0
   ShowDistrictIndexes: 0
   ShowDistrictBounds: 0
   ShowDistrictRegions: 0
