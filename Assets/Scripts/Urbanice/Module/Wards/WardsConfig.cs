@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Urbanice.Module.Data;
 using Urbanice.Module.Data.Utility;
 
@@ -18,7 +19,7 @@ namespace Urbanice.Module.Wards
 
         public Color RenderColor;
 
-        [Space]
-        public List<WardWeight> NeighboringDistricts;
+        [FormerlySerializedAs("NeighboringDistricts")] [Space]
+        public List<WardWeight> NeighboringWards;
     }
 }

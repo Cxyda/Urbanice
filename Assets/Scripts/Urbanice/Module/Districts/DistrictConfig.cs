@@ -25,6 +25,7 @@ namespace Urbanice.Module.Districts
         public float MinSize;
         [Range(0.1f, 10f)]
         public float MaxSize;
+        [Space]
 
         public List<DistrictWeight> NeighboringDistricts;
     }

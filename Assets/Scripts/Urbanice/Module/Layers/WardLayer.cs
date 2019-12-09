@@ -110,7 +110,7 @@ namespace Urbanice.Module.Layers
 
                 var config = WardDefinition.GetDefinitionFor(PolygonIdToNeighborhoodMap[neighbor].Type);
 
-                foreach (WardWeight nd in config.NeighboringDistricts)
+                foreach (WardWeight nd in config.NeighboringWards)
                 {
                     if (nd.Weight == 0)
                     {
