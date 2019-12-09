@@ -59,7 +59,7 @@ namespace Urbanice.Module.Layers
             SortRegionsByDistance();
 
             GenerateDistricts();
-            //SubdivideDistricts();
+            SubdivideDistricts();
 
             DevelopDistricts();
 
@@ -83,7 +83,7 @@ namespace Urbanice.Module.Layers
 
                 // Subdivide districts in neighborhoods
                 var clonedPolygon = Polygon.CloneInsetAndFlip(district.Shape, 0.01f);
-                district.Neigborhoods = cfg.PatternGenerator.Generate(insidePoints, clonedPolygon, false);
+                district.Neigborhoods = cfg.PatternGenerator.Generate(insidePoints, clonedPolygon, true);
                 clonedPolygon.Destroy();
                 
                 district.Neigborhoods.Sort((n1, n2) =>
@@ -93,7 +93,7 @@ namespace Urbanice.Module.Layers
                 });
 
                 // GetBorders
-                district.BorderEdges = GeometryUtils.FindBorderEdges(district.Neigborhoods);
+                //district.BorderEdges = GeometryUtils.FindBorderEdges(district.Neigborhoods);
                 
                 DevelopNeighbours(district);
             }

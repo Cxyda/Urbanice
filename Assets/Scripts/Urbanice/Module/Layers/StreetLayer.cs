@@ -17,7 +17,7 @@ namespace Urbanice.Module.Layers
     public class StreetLayer : BaseLayer, IUrbaniceLayer
     {
         public float StreetNoise = .25f;
-        [Range(0, 10)]
+        [Range(0, 20)]
         public int StreetSmoothness = 3;
         public float StreetWidth = .2f;
         public Mesh StreetMesh;
@@ -85,9 +85,8 @@ namespace Urbanice.Module.Layers
             // find crossroads
             foreach (Vertex cp in d.Shape.Points)
             {
-
-                float crossroadProbability = 3 * GlobalPRNG.Next() / (cp.Edges.Count - 3);
-                if (crossroadProbability < .025f)
+                float crossroadProbability = 5 * GlobalPRNG.Next() / (cp.Edges.Count - 3);
+                if (crossroadProbability < .25f)
                     continue;
 
                 Vector2 bisectrix = d.Shape.GetBisectrix(cp);

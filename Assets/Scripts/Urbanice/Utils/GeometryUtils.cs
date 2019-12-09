@@ -447,7 +447,6 @@ namespace Urbanice.Utils
 
                 pendingEdges.AddRange(newBorder);
             }
-
             void TryMergeLastTriangle(Polygon newPoly)
             {
                 if (borderPolygons.Count > 0 && borderPolygons[borderPolygons.Count - 1].Edges.Count == 3)
@@ -460,6 +459,7 @@ namespace Urbanice.Utils
                 }
             }
         }
+
         /// <summary>
         /// Calculates the shortest path along edges of a given list from start to end
         /// </summary>
