@@ -20,7 +20,7 @@ namespace Urbanice.Module.Layers
     {
         public DistrictLayer DistrictLayer { get; private set; }
         
-        [Range(0, 5)] public int BorderSubDiv = 1;
+        [Range(0, 5)] public int BorderSubdivinition = 1;
         public bool UseMaxBorderLength;
         [Range(0.05f, .3f)] public float MaxBorderLength = 0.3f;
         
@@ -46,6 +46,25 @@ namespace Urbanice.Module.Layers
             Neighborhoods = new List<Polygon>();
 
             DevelopNeighborhoods();
+            SubdivideNeighborhoods();
+        }
+
+        private void SubdivideNeighborhoods()
+        {
+            for (int i = 0; i < BorderSubdivinition; i++)
+            {
+                foreach (var p in Neighborhoods)
+                {
+                    if (UseMaxBorderLength)
+                    {
+                        p.SubdivideAllEdgesWith(MaxBorderLength, false);
+                    }
+                    else
+                    {
+                        p.SubdivideAllEdgesAt(0.5f, false);
+                    }
+                }
+            }
         }
 
         private void DevelopNeighborhoods()
@@ -58,7 +77,6 @@ namespace Urbanice.Module.Layers
 
         private void GenerateNeighborhood(DistrictData district)
         {
-
             for (var i = 0; i < district.Neigborhoods.Count; i++)
             {
                 var polygon = district.Neigborhoods[i];
@@ -83,6 +101,7 @@ namespace Urbanice.Module.Layers
                 var nData = new WardData(nType, polygon);
                 PolygonIdToNeighborhoodMap[polygon] = nData;
             }
+            Neighborhoods.AddRange(district.Neigborhoods);
         }
 
         private WardType GetAny(List<WardType> allTypes)

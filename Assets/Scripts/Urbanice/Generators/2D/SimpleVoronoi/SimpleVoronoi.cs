@@ -57,10 +57,7 @@ namespace Urbanice.Generators._2D.SimpleVoronoi
             {
                 foreach (var manipluator in _manipulators)
                 {
-                    foreach (var polygon in ClosedCells)
-                    {
-                        manipluator.Manipluate(polygon);
-                    }
+                    manipluator.Manipluate(ClosedCells);
                 }
             }
             ClosedCells = GeometryUtils.RemoveOutsidePolygons(ClosedCells, OutSideShape);

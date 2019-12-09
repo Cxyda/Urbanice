@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Urbanice.Data;
 using Urbanice.Maniplulators.Shape;
@@ -13,7 +14,7 @@ namespace Urbanice.Maniplulators
         [Range(0, 1f)] public float Amount = .33f;
         [Range(0, 10)] public int Iterations = 1;
         
-        public Polygon Manipluate(Polygon input)
+        public List<Polygon> Manipluate(List<Polygon> input)
         {
             var relaxManipulator = new ShapeRelax(this);
 

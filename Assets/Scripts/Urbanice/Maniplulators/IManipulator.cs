@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Urbanice.Data;
 
 namespace Urbanice.Maniplulators
@@ -11,7 +12,7 @@ namespace Urbanice.Maniplulators
         T Manipluate(T input);
     }
 
-    public interface IShapeManipulator : IManipulator<Polygon>
+    public interface IShapeManipulator : IManipulator<List<Polygon>>
     {
 
     }

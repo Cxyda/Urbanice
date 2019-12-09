@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: WardLayer
   m_EditorClassIdentifier: 
   Visibility: 0
-  BorderSubDiv: 0
-  UseMaxBorderLength: 0
-  MaxBorderLength: 0.3
+  BorderSubdivinition: 2
+  UseMaxBorderLength: 1
+  MaxBorderLength: 0.091
   WardDefinition: {fileID: 11400000, guid: 36b0c0411b7baad45a97de11c4da9243, type: 2}
   RandomGenerator: {fileID: 11400000, guid: 900ed52da4b5dcc4599fc2fee8ef46d2, type: 2}
-  Sites: []

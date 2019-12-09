@@ -82,7 +82,7 @@ namespace Urbanice.Module.Layers
                 cfg.PatternGenerator.Init();
 
                 // Subdivide districts in neighborhoods
-                var clonedPolygon = Polygon.CloneInsetAndFlip(district.Shape, 0.01f);
+                var clonedPolygon = Polygon.CloneInsetAndFlip(district.Shape, 0.001f);
                 district.Neigborhoods = cfg.PatternGenerator.Generate(insidePoints, clonedPolygon, true);
                 clonedPolygon.Destroy();
                 

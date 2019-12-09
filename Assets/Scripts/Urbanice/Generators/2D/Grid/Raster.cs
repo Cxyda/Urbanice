@@ -35,10 +35,7 @@ namespace Urbanice.Generators._2D.Grid
             {
                 foreach (var manipluator in _manipulators)
                 {
-                    foreach (var polygon in Regions)
-                    {
-                        manipluator.Manipluate(polygon);
-                    }
+                    manipluator.Manipluate(Regions);
                 }
             }
             Regions = GeometryUtils.RemoveOutsidePolygons(Regions, OutSideShape);

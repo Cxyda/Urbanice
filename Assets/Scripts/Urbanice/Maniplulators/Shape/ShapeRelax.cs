@@ -18,7 +18,6 @@ namespace Urbanice.Maniplulators.Shape
         public ShapeRelax(ShapeRelaxManipulator manipulator)
         {
             _manipulator = manipulator;
-            closedVertices = new List<Vertex>();
         }
         
 /*
@@ -49,14 +48,20 @@ namespace Urbanice.Maniplulators.Shape
             return input;
         }
 */
-        public Polygon Manipulate(Polygon input)
+        public List<Polygon> Manipulate(List<Polygon> input)
         {
-            _averageAngle = 360f / input.Points.Count;
-
-            for (var i = 0; i < _manipulator.Iterations; i++)
+            for (var j = 0; j < _manipulator.Iterations; j++)
             {
-                input = RelaxPolygon3(input);
-                input.Update();
+                closedVertices = new List<Vertex>();
+
+                for (int i = 0; i < input.Count; i++)
+                {
+                    var polygon = input[i];
+                    _averageAngle = 360f / polygon.Points.Count;
+
+                    polygon = RelaxPolygon3(polygon);
+                    polygon.Update();
+                }
             }
 
             return input;
