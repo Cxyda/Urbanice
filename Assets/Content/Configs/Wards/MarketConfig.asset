@@ -16,12 +16,14 @@ MonoBehaviour:
   DistrictTypes: 01000000
   RenderColor: {r: 1, g: 0.9938808, b: 0.9764151, a: 1}
   NeighboringWards:
+  - Element: 30
+    Weight: 30
   - Element: 11
-    Weight: 10
+    Weight: 30
   - Element: 12
     Weight: 10
   - Element: 15
-    Weight: 5
+    Weight: 20
   - Element: 16
     Weight: 5
   - Element: 10

@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65a71740ba8e0164199550a69464347b, type: 3}
-  m_Name: Invalid
+  m_Script: {fileID: 11500000, guid: 4caa2a756f804afa9cb411280d0425f5, type: 3}
+  m_Name: StreetRandomGenerator
   m_EditorClassIdentifier: 
-  WardType: 0
-  DistrictTypes: 
-  RenderColor: {r: 1, g: 0, b: 0.4745102, a: 1}
-  NeighboringWards: []
+  Seed: Urbanice!1

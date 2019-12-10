@@ -15,6 +15,6 @@ MonoBehaviour:
   Visibility: 0
   BorderSubdivinition: 2
   UseMaxBorderLength: 1
-  MaxBorderLength: 0.091
+  MaxBorderLength: 0.05
   WardDefinition: {fileID: 11400000, guid: 36b0c0411b7baad45a97de11c4da9243, type: 2}
   RandomGenerator: {fileID: 11400000, guid: 900ed52da4b5dcc4599fc2fee8ef46d2, type: 2}

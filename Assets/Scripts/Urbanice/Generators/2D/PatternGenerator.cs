@@ -13,6 +13,8 @@ namespace Urbanice.Generators._2D
     {
         [NonSerialized]
         public List<Polygon> GeneratedPolygons;
+        [NonSerialized]
+        public List<Vertex> ControlPoints;
 
         public abstract void Init();
         public abstract List<Polygon> Generate(List<Vector2> points, Polygon outsideShape, bool connectToOutside);

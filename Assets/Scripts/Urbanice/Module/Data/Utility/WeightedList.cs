@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Urbanice.Module.Data.Utility
@@ -77,7 +78,9 @@ namespace Urbanice.Module.Data.Utility
 
             }
             var element = _elements[cnt];
-            RemoveAt(cnt);
+            _elements.Remove(element);
+            _overallWeight -= element.Weight;
+            
             return element.Element;
         }
     }

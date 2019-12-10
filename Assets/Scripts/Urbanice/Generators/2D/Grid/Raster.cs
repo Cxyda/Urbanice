@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Urbanice.Data;
 using Urbanice.Maniplulators;
@@ -14,7 +15,8 @@ namespace Urbanice.Generators._2D.Grid
         private List<ShapeRelaxManipulator> _manipulators;
         private Polygon OutSideShape;
 
-        public List<Polygon> Regions;
+        public List<Polygon> ClosedCells;
+        public List<Vertex> ControlPoints;
 
         public Raster(IValueGenerator<float> random, RasterGenerator parameters, List<ShapeRelaxManipulator> manipulators)
         {
@@ -25,31 +27,32 @@ namespace Urbanice.Generators._2D.Grid
         public List<Polygon> Generate(List<Vector2> additionalControlPoints, Polygon outsideShape, bool connectToOutsideShape)
         {
             _gridPoints = new List<List<Vector2>>();
-            Regions = new List<Polygon>();
+            ClosedCells = new List<Polygon>();
             OutSideShape = outsideShape;
+            ControlPoints = new List<Vertex>();
             
             GenerateGridPoints();
-            GenerateRegions();
+            GenerateCells();
 
             if (_manipulators != null)
             {
                 foreach (var manipluator in _manipulators)
                 {
-                    manipluator.Manipluate(Regions);
+                    manipluator.Manipluate(ClosedCells);
                 }
             }
-            Regions = GeometryUtils.RemoveOutsidePolygons(Regions, OutSideShape);
+            ClosedCells = GeometryUtils.RemoveOutsidePolygons(ClosedCells, OutSideShape);
 
             if (connectToOutsideShape)
             {
-                var borderCells = GeometryUtils.CreateBorderPolygons(Regions, outsideShape);
-                Regions.AddRange(borderCells);
+                var borderCells = GeometryUtils.CreateBorderPolygons(ClosedCells, outsideShape);
+                ClosedCells.AddRange(borderCells);
             }
-            
-            return Regions;
+
+            return ClosedCells;
         }
 
-        private void GenerateRegions()
+        private void GenerateCells()
         {
             for (var x = 0; x < _gridPoints.Count - 1; x++)
             {
@@ -62,10 +65,15 @@ namespace Urbanice.Generators._2D.Grid
                     
                     var edgeList = new List<HalfEdge>(4);
 
-                    var e1 = new HalfEdge(Vertex.Factory.Create(px0), Vertex.Factory.Create(py0));
-                    var e2 = new HalfEdge(Vertex.Factory.Create(py0), Vertex.Factory.Create(py1));
-                    var e3 = new HalfEdge(Vertex.Factory.Create(py1), Vertex.Factory.Create(px1));
-                    var e4 = new HalfEdge(Vertex.Factory.Create(px1), Vertex.Factory.Create(px0));
+                    var vx0 = Vertex.Factory.Create(px0);
+                    var vx1 = Vertex.Factory.Create(px1);
+                    var vy0 = Vertex.Factory.Create(py0);
+                    var vy1 = Vertex.Factory.Create(py1);
+
+                    var e1 = new HalfEdge(vx0, vy0);
+                    var e2 = new HalfEdge(vy0, vy1);
+                    var e3 = new HalfEdge(vy1, vx1);
+                    var e4 = new HalfEdge(vx1, vx0);
 
                     e1.NextEdge = e3.PreviousEdge = e2;
                     e2.NextEdge = e4.PreviousEdge = e3;
@@ -76,9 +84,12 @@ namespace Urbanice.Generators._2D.Grid
                     
                     var p = new Polygon(edgeList);
 
-                    Regions.Add(p);
+                    ClosedCells.Add(p);
+                    ControlPoints.AddMultiple(vx0, vx1, vy0, vy1);
                 }
             }
+
+            ControlPoints = ControlPoints.Distinct().ToList();
         }
 
         private void GenerateGridPoints()

@@ -29,6 +29,7 @@ namespace Urbanice.Generators._2D
         public override List<Polygon> Generate(List<Vector2> points, Polygon outsideShape, bool connectToOutside)
         {
             GeneratedPolygons = _voronoi.Generate(points, outsideShape, connectToOutside);
+            ControlPoints = _voronoi.ControlPoints;
             
             return GeneratedPolygons;
         }

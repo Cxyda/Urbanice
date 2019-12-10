@@ -25,11 +25,13 @@ namespace Urbanice.Module.Layers
         [Range(0.05f, .3f)] public float MaxBorderLength = 0.3f;
         
         public WardDefinitionContainer WardDefinition;
-        [HideInInspector] public List<Polygon> Neighborhoods;
 
         public Dictionary<Polygon, WardData> PolygonIdToNeighborhoodMap;
         [Space] public PseudoRandomGenerator RandomGenerator;
         
+        [HideInInspector] public Graph<Vertex> TernaryStreetGraph;
+        [HideInInspector] public List<Polygon> Neighborhoods;
+
         public void Init()
         {
         }
@@ -41,12 +43,36 @@ namespace Urbanice.Module.Layers
             {
                 throw new Exception($"Cannot cast parent layer to type {typeof(DistrictLayer).Name} ");
             }
+            TernaryStreetGraph = new Graph<Vertex>();
 
             PolygonIdToNeighborhoodMap = new Dictionary<Polygon, WardData>();
             Neighborhoods = new List<Polygon>();
 
             DevelopNeighborhoods();
             SubdivideNeighborhoods();
+
+            CreateTernaryStreetGraph();
+            
+        }
+
+        private void CreateTernaryStreetGraph()
+        {
+            foreach (var shape in PolygonIdToNeighborhoodMap.Keys)
+            {
+                Vertex lastVertex = shape.Points[0];
+                TernaryStreetGraph.AddNode(lastVertex);
+
+                for (int i = 0; i < shape.Points.Count; i++)
+                {
+                    int n = (i + 1) % shape.Points.Count;
+                    var cp = shape.Points[n];
+                    
+                    TernaryStreetGraph.AddNode(cp);
+                    TernaryStreetGraph.ConnectNodes(lastVertex, cp);
+
+                    lastVertex = cp;
+                }
+            }
         }
 
         private void SubdivideNeighborhoods()

@@ -66,12 +66,18 @@ namespace Urbanice.Generators._1D.Random
         {
             return (float)_rnd.NextDouble();
         }
+        /// <summary>
+        /// Returns values that are more likely close to 0 and 1
+        /// </summary>
         private static float EaseInEaseOut(int exp)
         {
             var x = Next();
             var val = (float) ((float)(Math.Pow(x,exp)) / (Math.Pow(x,exp) + Math.Pow(1-x,exp)));
             return val;
         }
+        /// <summary>
+        /// Returns values that are more likely close to 0.5
+        /// </summary>
         private static float Cubic()
         {
             var x = Next();

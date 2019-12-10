@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65a71740ba8e0164199550a69464347b, type: 3}
-  m_Name: FarmfieldsConfig
+  m_Name: VariousCraftsmen
   m_EditorClassIdentifier: 
-  WardType: 61
-  DistrictTypes: 05000000
-  RenderColor: {r: 0.71973836, g: 1, b: 0.5613208, a: 1}
+  WardType: 30
+  DistrictTypes: 01000000
+  RenderColor: {r: 0.3537736, g: 1, b: 1, a: 1}
   NeighboringWards:
-  - Element: 61
+  - Element: 30
+    Weight: 50
+  - Element: 15
     Weight: 20
-  - Element: 60
-    Weight: 2
-  - Element: 62
-    Weight: 2
+  - Element: 21
+    Weight: 5

@@ -34,10 +34,13 @@ namespace Urbanice.Module.Containers
             CleanupSerializedData();
 
             GlobalPRNG.Init(GlobalSeed);
+            
             TerrainData.Init();
             CityLayer.Init();
             DistrictLayer.Init();
             WardLayer.Init();
+            PrimaryStreetLayer.Init();
+
             Stopwatch sw = new Stopwatch();
             sw.Start();
             

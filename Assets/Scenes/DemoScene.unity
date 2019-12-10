@@ -310,21 +310,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CityConfiguration: {fileID: 11400000, guid: 271168329d973904e80a7fd0b6a19a0d, type: 2}
-  ShowCityCore: 0
-  ShowCityBounds: 1
+  ShowCityCore: 1
+  ShowCityBounds: 0
   ShowCityIndexes: 0
   ShowDistricts: 1
-  ShowDistrictCenters: 0
+  ShowDistrictCenters: 1
   ShowDistrictBorders: 0
   ShowDistrictIndexes: 0
   ShowDistrictBounds: 0
   ShowDistrictRegions: 0
   ShowNeighborhoods: 1
-  ShowNeighborhoodBorders: 1
+  ShowNeighborhoodBorders: 0
   ShowNeighborhoodIndexes: 0
   ShowNeighborhoodBounds: 0
-  ShowStreets: 0
-  ShowCityPatches: 0
+  ShowStreets: 1
 --- !u!4 &1129351042
 Transform:
   m_ObjectHideFlags: 0

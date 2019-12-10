@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WardType: 32
   DistrictTypes: 010000000200000004000000
-  RenderColor: {r: 1, g: 0.40135294, b: 0, a: 1}
+  RenderColor: {r: 1, g: 0.46427232, b: 0, a: 1}
   NeighboringWards:
   - Element: 32
     Weight: 10

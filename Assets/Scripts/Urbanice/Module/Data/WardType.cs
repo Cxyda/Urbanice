@@ -18,6 +18,7 @@ namespace Urbanice.Module.Data
         Castle = 20,
 
         // Craftsmen types
+        VariousCraftsmen = 30,
         Saddler = 31,
         Goldshmith = 32,
         // Highclass types

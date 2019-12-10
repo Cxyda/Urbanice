@@ -39,14 +39,13 @@ namespace Urbanice.Renderer
         [Space]
 
         public bool ShowStreets;
-        public bool ShowCityPatches;
         
         private void OnDrawGizmos()
         {
             DrawDistrictPattern();
             DrawNeighborhoodPatterns();
-            DrawStreetGraph(CityConfiguration.PrimaryStreetLayer.StreetGraph, Color.magenta);
-            
+            //DrawStreetGraph(CityConfiguration.PrimaryStreetLayer.StreetGraph, Color.magenta);
+            DrawStreetGraph();
             DrawCityElements();
 
             if (CityConfiguration == null || CityConfiguration.PrimaryStreetLayer == null ||
@@ -54,6 +53,19 @@ namespace Urbanice.Renderer
             {
                 return;
             }
+        }
+
+        private void DrawStreetGraph()
+        {
+            if(!ShowStreets || CityConfiguration.DistrictLayer == null || CityConfiguration.WardLayer == null)
+                return;
+            
+            // Draw Secondary Streets
+
+            DrawStreetGraph(CityConfiguration.WardLayer.TernaryStreetGraph, new Color(.9f, .4f,.4f,1f));
+            DrawStreetGraph(CityConfiguration.DistrictLayer.SecondaryStreetGraph, new Color(1f, .2f,.2f,1f));
+            DrawStreetGraph(CityConfiguration.PrimaryStreetLayer.StreetGraph, new Color(1f, .2f,1f,1f));
+
         }
 
         private void DrawDistrictPattern()
@@ -196,18 +208,6 @@ namespace Urbanice.Renderer
             }
         }
 
-        private void DrawStreetControlPoints()
-        {
-            for (int i = 1; i < ((ICollection) CityConfiguration.PrimaryStreetLayer.StreetMesh.vertices).Count; i++)
-            {
-                Vector2 p0 = CityConfiguration.PrimaryStreetLayer.StreetMesh.vertices[i-1];
-                Vector2 p1 = CityConfiguration.PrimaryStreetLayer.StreetMesh.vertices[i];
-                
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawSphere(p0, .01f);
-            }
-        }
-
         private void DrawCityElements()
         {
             if(ShowCityCore)
@@ -244,9 +244,7 @@ namespace Urbanice.Renderer
                 Gizmos.DrawLine(CityConfiguration.CityLayer.CityCanvas.BoundingBox.TopLeft(), CityConfiguration.CityLayer.CityCanvas.BoundingBox.TopRight());
                 Gizmos.DrawLine(CityConfiguration.CityLayer.CityCanvas.BoundingBox.BottomLeft(), CityConfiguration.CityLayer.CityCanvas.BoundingBox.TopLeft());
                 Gizmos.DrawLine(CityConfiguration.CityLayer.CityCanvas.BoundingBox.BottomRight(), CityConfiguration.CityLayer.CityCanvas.BoundingBox.TopRight());
-                
             }
-
         }
         
         private void DrawStreetGraph(Graph<Vertex> graph, Color c)
@@ -263,9 +261,8 @@ namespace Urbanice.Renderer
                 closedNodes.Add(node);
                 var currentNode = node;
                 var neighbors = graph.GetNeighbors(node);
-                Gizmos.DrawSphere(currentNode, .005f);
+                Gizmos.DrawSphere(currentNode, .0015f);
 
-                Gizmos.color = Color.magenta;
                 for (var j = 0; j < neighbors.Count; j++)
                 {
                     if (closedNodes.Contains(neighbors[j]))

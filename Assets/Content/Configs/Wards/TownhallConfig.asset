@@ -18,6 +18,8 @@ MonoBehaviour:
   NeighboringWards:
   - Element: 21
     Weight: 10
+  - Element: 30
+    Weight: 5
   - Element: 15
     Weight: 5
   - Element: 10

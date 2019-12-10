@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Urbanice.Data;
+using Urbanice.Generators._1D;
 using Urbanice.Generators._1D.Random;
 using Urbanice.Generators._2D;
 using Urbanice.Generators._2D.SimpleVoronoi;
@@ -28,9 +30,10 @@ namespace Urbanice.Module.Layers
         private Vector2 _cityCenter;
         private List<Vector2> _citySites;
 
-        public Dictionary<Vector2, Vertex> DistrictControlPoints;
+        public List<Vertex> DistrictControlPoints;
         public Dictionary<Polygon, DistrictData> PolygonIdToDistrictMap;
 
+        [HideInInspector] public Graph<Vertex> SecondaryStreetGraph;
         [HideInInspector] public List<Polygon> Polygons;
         [HideInInspector] public List<Region> Regions;
 
@@ -48,8 +51,8 @@ namespace Urbanice.Module.Layers
                 throw new Exception($"Cannot cast parent layer to type {typeof(CityLayer).Name} ");
             }
 
-            DistrictControlPoints = new Dictionary<Vector2, Vertex>();
             PolygonIdToDistrictMap = new Dictionary<Polygon, DistrictData>();
+            SecondaryStreetGraph = new Graph<Vertex>();
             
             // Only needed to expose data to the renderer
             Polygons = new List<Polygon>();
@@ -61,8 +64,29 @@ namespace Urbanice.Module.Layers
             GenerateDistricts();
             SubdivideDistricts();
 
+            CreateSecondaryStreetGraph();
             DevelopDistricts();
 
+        }
+
+        private void CreateSecondaryStreetGraph()
+        {
+            foreach (var shape in PolygonIdToDistrictMap.Keys)
+            {
+                Vertex lastVertex = shape.Points[0];
+                SecondaryStreetGraph.AddNode(lastVertex);
+
+                for (int i = 0; i < shape.Points.Count; i++)
+                {
+                    int n = (i + 1) % shape.Points.Count;
+                    var cp = shape.Points[n];
+                    
+                    SecondaryStreetGraph.AddNode(cp);
+                    SecondaryStreetGraph.ConnectNodes(lastVertex, cp);
+
+                    lastVertex = cp;
+                }
+            }
         }
 
         private void DevelopDistricts()
@@ -124,6 +148,8 @@ namespace Urbanice.Module.Layers
             _citySites = new List<Vector2>(CityLayer.CityCores);
 
             var polygons = Generator.Generate(_citySites, CityLayer.CityCanvas, false);
+            DistrictControlPoints = Generator.ControlPoints;
+            
             CityLayer.CityCanvas.Destroy();
 
             foreach (var p in polygons)

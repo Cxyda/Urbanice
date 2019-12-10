@@ -4,8 +4,10 @@ using System.Linq;
 using UnityEngine;
 using Urbanice.Data;
 using Urbanice.Generators;
+using Urbanice.Generators._1D;
 using Urbanice.Generators._1D.Random;
 using Urbanice.Module.Data;
+using Urbanice.Module.Data.Utility;
 using Urbanice.Utils;
 
 namespace Urbanice.Module.Layers
@@ -16,21 +18,29 @@ namespace Urbanice.Module.Layers
     [CreateAssetMenu(menuName = "Urbanice/DataLayers/Create new Street Layer", fileName = "newStreetLayer", order = 3)]
     public class StreetLayer : BaseLayer, IUrbaniceLayer
     {
+        public enum Directions
+        {
+            North,
+            East,
+            South,
+            West
+            
+        }
+        public FloatGenerator FloatGenerator;
+
         public float StreetNoise = .25f;
         [Range(0, 20)]
         public int StreetSmoothness = 3;
-        public float StreetWidth = .2f;
-        public Mesh StreetMesh;
+        [Range(0,4)]
         public int StreetCount = 2;
-        public float MinStreetpointDistance = .0f;
 
-        public Graph<Vertex> StreetGraph;
+        [HideInInspector]public Graph<Vertex> StreetGraph;
         
         public DistrictLayer DistrictLayer { get; private set; }
 
         public void Init()
         {
-            
+            FloatGenerator.Init();
         }
 
         public void Generate(BaseLayer parentLayer)
@@ -38,22 +48,23 @@ namespace Urbanice.Module.Layers
             DistrictLayer = parentLayer as DistrictLayer;
             StreetGraph = new Graph<Vertex>();
 
-            BuildStreetGraph();
+            //BuildStreetGraph();
 
-            List<Vertex> controlPoints = DistrictLayer.DistrictControlPoints.Values.ToList();
-            for (int i = 0; i < StreetCount; i++)
+            var pointOnBounds = CreatePointOnBounds(StreetCount);
+
+            
+            for (var i = 0; i < StreetCount; i++)
             {
                 var street = new List<Vertex>();
 
                 // Generate points
-                var pointOnBounds = CreatePointOnBounds();
-                var closestPointToStart = pointOnBounds.FindClosestIn(controlPoints);
+                var vertexOnBounds = Vertex.Factory.Create(pointOnBounds[i]);
 
-                float maxSegmentLength = StreetSmoothness == 0 ? 1f : 0.5f / StreetSmoothness;
-                if (closestPointToStart.HasValue)
+                var maxSegmentLength = StreetSmoothness == 0 ? 1f : 0.5f / StreetSmoothness;
+                if (vertexOnBounds.FindClosestIn(DistrictLayer.DistrictControlPoints, out var closestPointToStart))
                 {
-                    //var connection1 = GeometryUtils.CreateLineTowardsPoint(pointOnBounds, closestPointToStart.Value, maxSegmentLength, StreetNoise);
-                    //street.AddRange(connection1);
+                    var connection1 = GeometryUtils.CreateLineTowardsPoint(vertexOnBounds, closestPointToStart, maxSegmentLength, StreetNoise);
+                    street.AddRange(connection1);
                     AddLineToGraph(street);
                 }
             }
@@ -64,10 +75,49 @@ namespace Urbanice.Module.Layers
             foreach (DistrictData d in DistrictLayer.PolygonIdToDistrictMap.Values)
             {
                 BuildStreetOnDistrictEdges(d);
-                //BuildCrossRoads(d);
+                BuildCrossRoads(d);
             }
         }
 
+
+        private List<Vector2> CreatePointOnBounds(int amount)
+        {
+            WeightedList<WeightedElement<Directions>, Directions> borderWeights = new WeightedList<WeightedElement<Directions>, Directions>();
+            
+            borderWeights.Add(new WeightedElement<Directions>(Directions.North, 1));
+            borderWeights.Add(new WeightedElement<Directions>(Directions.East, 1));
+            borderWeights.Add(new WeightedElement<Directions>(Directions.South, 1));
+            borderWeights.Add(new WeightedElement<Directions>(Directions.West, 1));
+            
+            List<Vector2> pointOnBounds = new List<Vector2>();
+
+            for (int i = 0; i < amount; i++)
+            {
+                var rnd = FloatGenerator.Generate();
+                var direction = borderWeights.GetElement(rnd);
+            
+                var rnd1 = FloatGenerator.Generate();
+
+                switch (direction)
+                {
+                    case Directions.North:
+                        pointOnBounds.Add(new Vector2(rnd1, 1f));
+                        break;
+                    case Directions.East:
+                        pointOnBounds.Add(new Vector2(1f, rnd1));
+
+                        break;
+                    case Directions.South:
+                        pointOnBounds.Add(new Vector2(rnd1, 0f));
+
+                        break;
+                    case Directions.West:
+                        pointOnBounds.Add(new Vector2(0f, rnd1));
+                        break;
+                }
+            }
+            return pointOnBounds;
+        }
         private void BuildStreetOnDistrictEdges(DistrictData d)
         {
             for (int i = 0; i < d.Shape.Points.Count; i++)
@@ -85,7 +135,7 @@ namespace Urbanice.Module.Layers
             // find crossroads
             foreach (Vertex cp in d.Shape.Points)
             {
-                float crossroadProbability = 5 * GlobalPRNG.Next() / (cp.Edges.Count - 3);
+                float crossroadProbability = 5 * FloatGenerator.Generate() / (cp.Edges.Count - 3);
                 if (crossroadProbability < .25f)
                     continue;
 
@@ -167,7 +217,7 @@ namespace Urbanice.Module.Layers
                 StreetGraph.ConnectNodes(p0, p1);
             }
         }
-        /*
+        /* Alternative approach, keep it for later use
         private void CreateStreetGraph()
         {
             SecondaryStreets = new Graph<Vertex>();
@@ -222,25 +272,7 @@ namespace Urbanice.Module.Layers
                 }
             }
         }*/
-                
-        private Vector2 CreatePointOnBounds()
-        {
-            Vector2 start;
-            Vector2 end;
-            var rnd1 = GlobalPRNG.Next();
-            var rnd2 = GlobalPRNG.Next();
-                
-            // validate points, don't start and endpoint on the same border
-            // TODO: this can still generate points on the same border
-            start = rnd1 + rnd2 >= 0.75f
-                ? new Vector2((float)Math.Round(rnd1, 0, MidpointRounding.AwayFromZero), rnd2)
-                : new Vector2(rnd1, (float)Math.Round(rnd2, 0, MidpointRounding.AwayFromZero));
 
-            //start.x = Mathf.Lerp(DistrictLayer.Bounds.xMin, DistrictLayer.Bounds.xMax, start.x);
-            //start.y = Mathf.Lerp(DistrictLayer.Bounds.yMin, DistrictLayer.Bounds.yMax, start.y);
-
-            return start;
-        }
 
         
         /*

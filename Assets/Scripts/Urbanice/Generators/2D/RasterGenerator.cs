@@ -29,6 +29,8 @@ namespace Urbanice.Generators._2D
         public override List<Polygon> Generate(List<Vector2> points, Polygon outsideShape, bool connectToOutside)
         {
             GeneratedPolygons = _raster.Generate(points, outsideShape, connectToOutside);
+            ControlPoints = _raster.ControlPoints;
+
             return GeneratedPolygons;
         }
     }

@@ -17,6 +17,8 @@ namespace Urbanice.Generators._2D.SimpleVoronoi
         public List<Vector2> Sites;
         public List<Vector2> Frame;
         
+        public List<Vertex> ControlPoints;
+
         public List<Polygon> ClosedCells;
 
         private Rect BoundingBox;
@@ -43,7 +45,8 @@ namespace Urbanice.Generators._2D.SimpleVoronoi
         {
             OutSideShape = outsideShape;
             BoundingBox = OutSideShape.BoundingBox;
-
+            ControlPoints = new List<Vertex>();
+            
             List<Vector2> points = GenerateInnerPoints(additionalControlPoints);
                 
             BuildRegions(points, OutSideShape);
@@ -67,7 +70,14 @@ namespace Urbanice.Generators._2D.SimpleVoronoi
                 var borderCells = GeometryUtils.CreateBorderPolygons(ClosedCells, outsideShape);
                 ClosedCells.AddRange(borderCells);
             }
-            
+
+            foreach (var cell in ClosedCells)
+            {
+                foreach (var p in cell.Points)
+                {
+                    ControlPoints.Add(p);
+                }
+            }            
             return ClosedCells;
         }
 
