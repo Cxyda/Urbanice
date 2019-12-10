@@ -202,9 +202,6 @@ namespace Urbanice.Utils
                 
                 Vector2 bisector = BisectSegment(p0, p1, maxDeviation);
                 
-                // Check if vertex is within range
-                //var vertex = Vertex.Factory.GetOrCreateVertexWithinRange(bisector, 0.000f);
-
                 var vertex = Vertex.Factory.Create(bisector);
                 subdividedLine.AddMultiple(p0, vertex);
             }
@@ -296,9 +293,6 @@ namespace Urbanice.Utils
         public static Rect CalculateBoundingBox(List<Vector2> points)
         {
             CalculateBounds(points, out float minx, out float miny, out float maxx, out float maxy);
-            //var dx = (maxx - minx) * 0.5f;
-            //var dy = (maxy - miny) * 0.5f;
-            
             return new Rect(new Vector2(minx, miny), new Vector2(maxx-minx, maxy-miny));
         }
 
@@ -397,11 +391,13 @@ namespace Urbanice.Utils
             Vertex lastInnerVertex = initialVertex;
             List<HalfEdge> edges = new List<HalfEdge>();
 
+            // walk the outer edges
             do
             {
-
                 var newPoly = BuildPolygon();
-                borderPolygons.Add(newPoly);
+                if(!borderPolygons.Contains(newPoly))
+                    borderPolygons.Add(newPoly);
+                
                 edges = new List<HalfEdge>();
                 
             } while (startingEdge != currentEdge);
@@ -435,16 +431,32 @@ namespace Urbanice.Utils
 
                 } while (startingEdge != currentEdge && !foundPolygon);
 
-                for (int n = 0; n < edges.Count; n++)
+                if (!foundPolygon)
                 {
-                    int n1 = (n + 1) % edges.Count;
-                    edges[n].NextEdge = edges[n1];
-                    edges[n1].PreviousEdge = edges[n];
+                    // this means last polygon was a triangle -> attach it to another polygon
+                    e = new HalfEdge(currentEdge.PreviousEdge.Destination, lastInnerVertex);
+                    edges.Add(e);
+                    var lastPolygon = borderPolygons[borderPolygons.Count - 1];
+                    lastPolygon.ExtendPolygon(edges);
+                    return lastPolygon;
                 }
+                // connect edges
+                ConnectEdgesInOrder(edges);
+                
                 return new Polygon(edges);
             }
 
             return borderPolygons;
+        }
+
+        public static void ConnectEdgesInOrder(List<HalfEdge> edges)
+        {
+            for (int n = 0; n < edges.Count; n++)
+            {
+                int n1 = (n + 1) % edges.Count;
+                edges[n].NextEdge = edges[n1];
+                edges[n1].PreviousEdge = edges[n];
+            }
         }
 
         /// <summary>

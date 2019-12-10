@@ -17,7 +17,7 @@ namespace Urbanice.Data
 
         public int Index => _index;
         public Vector2 Center => _center;
-        public float Area => _area;
+        public double Area => _area;
 
         /// <summary>
         /// Getter of the containing vertices. The list is cached once the getter was called
@@ -26,8 +26,8 @@ namespace Urbanice.Data
         {
             get
             {
-                //if (_points.Count == Edges.Count)
-                //    return _points;
+                if (_points.Count == Edges.Count)
+                   return _points;
                 _points = new List<Vertex>(Edges.Count);
                 foreach (var e in Edges)
                 {
@@ -48,7 +48,7 @@ namespace Urbanice.Data
         // The center position
         private Vector2 _center;
         // The area of the surface
-        private float _area;
+        private double _area;
         private List<Vertex> _points;
 
         // the closest distance of two vertices of the border
@@ -196,46 +196,73 @@ namespace Urbanice.Data
             Update();
         }
 
-        public void CombinePolygon(Polygon otherPolygon)
+        public bool FindCommonEdge(List<HalfEdge> edges, out HalfEdge commonEdge, out bool isFlipped)
+        {
+            isFlipped = false;
+            commonEdge = null;
+            
+            foreach (var e in edges)
+            {
+                int originIndex = Points.IndexOf(e.Origin);
+                int destinationIndex = Points.IndexOf(e.Destination);
+                
+                if(originIndex < 0 || destinationIndex < 0)
+                    continue;
+                
+                // common edge found! check orientation
+                isFlipped = originIndex - destinationIndex < 0;
+                commonEdge = Edges[originIndex];
+                return true;
+            }
+
+            return false;
+        }
+        public void ExtendPolygon(List<HalfEdge> edges)
         {
             List<HalfEdge> listCopy = new List<HalfEdge>(Edges);
-            // Find common Edge
-            foreach (var edge in listCopy)
+            if (!FindCommonEdge(edges, out HalfEdge commonEdge, out bool isFlipped))
             {
-                var otherEdge = edge.Other();
-                if (otherEdge == null || !otherPolygon.Edges.Contains(otherEdge))
-                {
-                    continue;
-                }
-
-                int index = Edges.IndexOf(edge);
-
-                Edges.Remove(edge);
-                otherPolygon.Edges.Remove(otherEdge);
-                
-                otherEdge.Destroy();
-                edge.Destroy();
-
-                foreach (var e in otherPolygon.Edges)
-                {
-                    e.AdjacentPolygon = this;
-                }
-                Edges.InsertRange(index, otherPolygon.Edges);
-
-                for (int n = 0; n < Edges.Count; n++)
-                {
-                    var n1 = (n + 1) % Edges.Count;
-                    Edges[n].NextEdge = Edges[n1];
-                    Edges[n1].PreviousEdge = Edges[n];
-                }
-                break;
+                return;
             }
+            int commonEdgeIndex = Edges.IndexOf(commonEdge);
+
+            if (isFlipped)
+            {
+                foreach (var e in edges)
+                {
+                    e.Flip();
+                }
+
+                edges.Reverse();
+            }
+
+            listCopy.Remove(commonEdge);
+            edges.Remove(commonEdge.Other());
             
+            commonEdge.Destroy();
+            commonEdge.Other().Destroy();
+            
+            foreach (var e in edges)
+            {
+                e.AdjacentPolygon = this;
+            }
+
+            if (commonEdgeIndex == listCopy.Count)
+            {
+                listCopy.AddRange(edges);
+            }
+            else
+            {
+                listCopy.InsertRange(commonEdgeIndex, edges);
+            }
+            GeometryUtils.ConnectEdgesInOrder(listCopy);
+            Edges = listCopy;
             Update();
         }
+
         private void CreateTriangles()
         {
-            Triangles = new List<Triangle>(Edges.Count);
+            Triangles = new List<Triangle>();
 
             foreach (var e in Edges)
             {
@@ -291,7 +318,8 @@ namespace Urbanice.Data
         
         public void RecalculateArea()
         {
-            _area = 0f;
+
+            _area = 0;
 
             for (var n = 0; n < Points.Count; n++)
             {
@@ -299,12 +327,13 @@ namespace Urbanice.Data
                 _area += Points[n].x * Points[n1].y - Points[n1].x * Points[n].y;
             }
 
-            _area *= 0.5f;
+            _area = Math.Abs(_area * 0.5);
         }
+
         public void RecalculateCenter()
         {
-            var xs = 0f;
-            var ys = 0f;
+            double xs = 0f;
+            double ys = 0f;
             
             for (var n = 0; n < Points.Count; n++)
             {
@@ -313,10 +342,10 @@ namespace Urbanice.Data
                 ys += (Points[n].y + Points[n1].y) * (Points[n].x * Points[n1].y - Points[n1].x * Points[n].y);
             }
 
-            xs *= 1f / (6 * _area);
-            ys *= 1f / (6 * _area);
+            xs = Math.Abs(xs * 1 / (6 * _area));
+            ys = Math.Abs(ys / (6 * _area));
 
-            _center = new Vector2(xs, ys);
+            _center = new Vector2((float)xs, (float)ys);
         }
 
         /// <summary>
