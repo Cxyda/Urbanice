@@ -133,6 +133,7 @@ namespace Urbanice.Module.Layers
         private WardType GetAny(List<WardType> allTypes)
         {
             var index = (int) (RandomGenerator.Generate() * allTypes.Count);
+            Debug.Log("index : " + index + " count: " + allTypes.Count);
             return allTypes[index];
         }
         private WardType GetNeighborhoodTypeFor(Polygon nPolygon)

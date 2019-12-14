@@ -18,22 +18,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.002670288
-      value: 0.27795428
-      inSlope: 1.9390165
-      outSlope: 1.9390165
+      time: 0
+      value: 0
+      inSlope: 5.6784678
+      outSlope: 5.6784678
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.05192904
+      outWeight: 0.011139665
     - serializedVersion: 3
-      time: 1.0025024
-      value: 0.70204973
-      inSlope: 1.7609701
-      outSlope: 1.7609701
+      time: 1
+      value: 1
+      inSlope: 5.862287
+      outSlope: 5.862287
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.04863087
+      inWeight: 0.06137538
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -45,4 +45,4 @@ MonoBehaviour:
     width: 1
     height: 1
   CityCores:
-  - {x: 0.5311504, y: 0.5053508}
+  - {x: 0.596998, y: 0.6114157}

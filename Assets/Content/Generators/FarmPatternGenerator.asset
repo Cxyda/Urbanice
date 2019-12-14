@@ -38,5 +38,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  CellDensity: 2
-  ShapeManipulators: []
+  CellDensity: 10
+  ShapeManipulators:
+  - {fileID: 11400000, guid: fc3bc79859ca045ab8cf6a18ace9835c, type: 2}

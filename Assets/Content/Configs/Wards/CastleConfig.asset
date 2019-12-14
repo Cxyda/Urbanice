@@ -10,23 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65a71740ba8e0164199550a69464347b, type: 3}
-  m_Name: GoldSmithConfig
+  m_Name: CastleConfig
   m_EditorClassIdentifier: 
-  WardType: 32
-  DistrictTypes: 010000000200000004000000
-  RenderColor: {r: 1, g: 0.46274513, b: 0, a: 1}
+  WardType: 20
+  DistrictTypes: 07000000
+  RenderColor: {r: 0.10980394, g: 0.49442723, b: 0.7921569, a: 1}
   NeighboringWards:
-  - Element: 32
-    Weight: 10
-  - Element: 15
-    Weight: 10
-  - Element: 21
-    Weight: 5
-  - Element: 10
-    Weight: 0
-  - Element: 16
-    Weight: 0
-  - Element: 11
-    Weight: 0
-  - Element: 12
-    Weight: 0
+  - Element: 20
+    Weight: 15

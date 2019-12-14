@@ -31,7 +31,7 @@ namespace Urbanice.Module.Layers
         public float StreetNoise = .25f;
         [Range(0, 20)]
         public int StreetSmoothness = 3;
-        [Range(0,4)]
+        [Range(0,8)]
         public int StreetCount = 2;
 
         [HideInInspector]public Graph<Vertex> StreetGraph;
@@ -84,6 +84,10 @@ namespace Urbanice.Module.Layers
         {
             WeightedList<WeightedElement<Directions>, Directions> borderWeights = new WeightedList<WeightedElement<Directions>, Directions>();
             
+            borderWeights.Add(new WeightedElement<Directions>(Directions.North, 1));
+            borderWeights.Add(new WeightedElement<Directions>(Directions.East, 1));
+            borderWeights.Add(new WeightedElement<Directions>(Directions.South, 1));
+            borderWeights.Add(new WeightedElement<Directions>(Directions.West, 1));
             borderWeights.Add(new WeightedElement<Directions>(Directions.North, 1));
             borderWeights.Add(new WeightedElement<Directions>(Directions.East, 1));
             borderWeights.Add(new WeightedElement<Directions>(Directions.South, 1));

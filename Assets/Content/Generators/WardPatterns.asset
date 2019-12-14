@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WardPatterns
   m_EditorClassIdentifier: 
   ValueGenerator: {fileID: 11400000, guid: 900ed52da4b5dcc4599fc2fee8ef46d2, type: 2}
-  MinPointDistance: 0.012
+  MinPointDistance: 0.064
   PointDistribution:
     serializedVersion: 2
     m_Curve:
@@ -38,6 +38,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  CellDensity: 5
-  ShapeManipulators:
-  - {fileID: 11400000, guid: fc3bc79859ca045ab8cf6a18ace9835c, type: 2}
+  CellDensity: 6
+  ShapeManipulators: []

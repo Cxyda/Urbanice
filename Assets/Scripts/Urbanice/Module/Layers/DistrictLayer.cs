@@ -30,12 +30,12 @@ namespace Urbanice.Module.Layers
         private Vector2 _cityCenter;
         private List<Vector2> _citySites;
 
-        public List<Vertex> DistrictControlPoints;
         public Dictionary<Polygon, DistrictData> PolygonIdToDistrictMap;
 
         [HideInInspector] public Graph<Vertex> SecondaryStreetGraph;
         [HideInInspector] public List<Polygon> Polygons;
         [HideInInspector] public List<Region> Regions;
+        [HideInInspector] public List<Vertex> DistrictControlPoints;
 
         
         public void Init()

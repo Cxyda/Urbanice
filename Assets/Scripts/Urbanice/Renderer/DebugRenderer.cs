@@ -62,9 +62,9 @@ namespace Urbanice.Renderer
             
             // Draw Secondary Streets
 
-            DrawStreetGraph(CityConfiguration.WardLayer.TernaryStreetGraph, new Color(.9f, .4f,.4f,1f));
-            DrawStreetGraph(CityConfiguration.DistrictLayer.SecondaryStreetGraph, new Color(1f, .2f,.2f,1f));
-            DrawStreetGraph(CityConfiguration.PrimaryStreetLayer.StreetGraph, new Color(1f, .2f,1f,1f));
+            DrawStreetGraph(CityConfiguration.WardLayer.TernaryStreetGraph, new Color(.1f, .1f,.1f,1f));
+            DrawStreetGraph(CityConfiguration.DistrictLayer.SecondaryStreetGraph, new Color(.1f, .1f,.1f,1f));
+            DrawStreetGraph(CityConfiguration.PrimaryStreetLayer.StreetGraph, new Color(0f, 0f,0f,1f));
 
         }
 

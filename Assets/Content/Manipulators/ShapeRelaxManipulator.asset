@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e4b77c2601d473392b8c3b4625a82cc, type: 3}
   m_Name: ShapeRelaxManipulator
   m_EditorClassIdentifier: 
-  Amount: 0.365
-  Iterations: 1
+  Amount: 0.106
+  Iterations: 4

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:Urbanice.Module.Layers:PrimaryStreetLayer
   Visibility: 0
   FloatGenerator: {fileID: 11400000, guid: 7a2bf14da23de41818e326272bc1be76, type: 2}
-  StreetNoise: 0.25
-  StreetSmoothness: 8
-  StreetCount: 4
+  StreetNoise: 0.15
+  StreetSmoothness: 11
+  StreetCount: 6

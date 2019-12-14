@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4caa2a756f804afa9cb411280d0425f5, type: 3}
   m_Name: WardPRNG
   m_EditorClassIdentifier: 
-  Seed: FooBarBaz1
+  Seed: FooBarBaz

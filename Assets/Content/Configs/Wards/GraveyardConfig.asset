@@ -14,13 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WardType: 102
   DistrictTypes: 03000000
-  RenderColor: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
-  NeighboringDistricts:
+  RenderColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
+  NeighboringWards:
   - Element: 101
     Weight: 10
   - Element: 100
     Weight: 2
   - Element: 102
     Weight: 0
-
-

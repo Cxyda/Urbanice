@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DistrictType: 7
   RenderColor: {r: 0.8862745, g: 0.10588237, b: 0.55739933, a: 1}
-  InitialSpawnType: 1
+  InitialSpawnType: 20
   PatternGenerator: {fileID: 11400000, guid: e4e6c8ee31fe0794d8b2fda7b3fe13c3, type: 2}
   MinDistanceFromTownSquare: 0.5
   MaxDistanceFromTownSquare: 1

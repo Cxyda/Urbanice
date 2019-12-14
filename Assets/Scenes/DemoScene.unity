@@ -289,12 +289,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CityConfiguration: {fileID: 11400000, guid: 271168329d973904e80a7fd0b6a19a0d, type: 2}
   ShowMeshes: 1
-  ShowDistricts: 0
+  ShowDistricts: 1
   ShowDistrictBorders: 0
   ShowDistrictWire: 0
   ShowNeighborhoods: 1
   ShowNeighborhoodBorders: 0
-  ShowNeighborhoodWire: 1
+  ShowNeighborhoodWire: 0
   DistrictConfigs: {fileID: 11400000, guid: 40d8552e9b8f3ed41a436c285dcfbbc2, type: 2}
   WardConfig: {fileID: 11400000, guid: 36b0c0411b7baad45a97de11c4da9243, type: 2}
 --- !u!114 &1129351040
@@ -315,15 +315,15 @@ MonoBehaviour:
   ShowCityIndexes: 0
   ShowDistricts: 0
   ShowDistrictCenters: 1
-  ShowDistrictBorders: 1
-  ShowDistrictIndexes: 1
+  ShowDistrictBorders: 0
+  ShowDistrictIndexes: 0
   ShowDistrictBounds: 0
   ShowDistrictRegions: 0
-  ShowNeighborhoods: 1
-  ShowNeighborhoodBorders: 1
-  ShowNeighborhoodIndexes: 1
+  ShowNeighborhoods: 0
+  ShowNeighborhoodBorders: 0
+  ShowNeighborhoodIndexes: 0
   ShowNeighborhoodBounds: 0
-  ShowStreets: 0
+  ShowStreets: 1
 --- !u!4 &1129351042
 Transform:
   m_ObjectHideFlags: 0

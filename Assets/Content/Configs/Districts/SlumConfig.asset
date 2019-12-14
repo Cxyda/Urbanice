@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SlumConfig
   m_EditorClassIdentifier: 
   DistrictType: 3
-  RenderColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
+  RenderColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
   InitialSpawnType: 1
-  PatternGenerator: {fileID: 11400000, guid: e4e6c8ee31fe0794d8b2fda7b3fe13c3, type: 2}
+  PatternGenerator: {fileID: 11400000, guid: c7bdfd917fc6a874181f45c5a6c457b1, type: 2}
   MinDistanceFromTownSquare: 0.5
   MaxDistanceFromTownSquare: 1
   MinSize: 2

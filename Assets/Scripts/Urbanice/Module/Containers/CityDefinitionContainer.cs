@@ -48,29 +48,29 @@ namespace Urbanice.Module.Containers
 
             if (CityLayer.Visibility == LayerVisibility.Generate)
             {
-                Debug.Log($"+++++++++++ Generating City+++++++++++");
+                //Debug.Log($"+++++++++++ Generating City+++++++++++");
                 CityLayer.Generate(null);
-                Debug.Log($"----------- DONE! -----------");
+                //Debug.Log($"----------- DONE! -----------");
             }
 
             if (DistrictLayer.Visibility == LayerVisibility.Generate)
             {
-                Debug.Log($"+++++++++++ Generating Districts +++++++++++");
+                //Debug.Log($"+++++++++++ Generating Districts +++++++++++");
                 DistrictLayer.Generate(CityLayer);
-                Debug.Log($"----------- DONE! -----------");
+                //Debug.Log($"----------- DONE! -----------");
             }
 
             if (WardLayer.Visibility == LayerVisibility.Generate)
             {
-                Debug.Log($"+++++++++++ Generating Neighborhoods +++++++++++");
+                //Debug.Log($"+++++++++++ Generating Neighborhoods +++++++++++");
                 WardLayer.Generate(DistrictLayer);
-                Debug.Log($"----------- DONE! -----------");
+                //Debug.Log($"----------- DONE! -----------");
             }
             if (PrimaryStreetLayer.Visibility == LayerVisibility.Generate)
             {
-                Debug.Log($"+++++++++++ Generating Streets +++++++++++");
+                //Debug.Log($"+++++++++++ Generating Streets +++++++++++");
                 PrimaryStreetLayer.Generate(DistrictLayer);
-                Debug.Log($"----------- DONE! -----------");
+                //Debug.Log($"----------- DONE! -----------");
             }
             
             

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aca67b553da04688a950aeca73faca4e, type: 3}
   m_Name: SampleCityConfiguration
   m_EditorClassIdentifier: 
-  GlobalSeed: FooBar1
+  GlobalSeed: FooBarBaz1
   TerrainData: {fileID: 11400000, guid: cd678c14d6fd3b641870122548993add, type: 2}
   CityLayer: {fileID: 11400000, guid: f8ba625cd988ef140b8e92349b1e9c16, type: 2}
   DistrictLayer: {fileID: 11400000, guid: d5209dea44e120c4f866471fa39f83d9, type: 2}
