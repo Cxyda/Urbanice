@@ -29,7 +29,7 @@
 - To Open the DemoScene.scene file double click in the the Project-Window (2). It is located below the **Assets/Scenes/** folder.
 - Urbanice! uses Scriptable objects as data containers. They are all located below Assets/Content/ (7) folder. You can select any of those files and modify parameters in the inspector-Window (3)
 - After you changed parameters, you have to select the CityGenerator GameObject (5) and select GenerateCity (8).
-- Afterwards you should see the generated city in the Scene-Window (7)
+- Afterwards you should see the generated city in the Scene-Window (6)
 - The CityRenderer GameObject (4) renders the city map. You can select / deselect different features of the city.
 
 ### Screenshots
