@@ -20,10 +20,10 @@
 - All ScriptableObjects can be found in the **Assets/Content/Configs/** folder
 - Open the DemoScene-scene where everything is setup
 
-![howToUse_01](https://github.com/Cxyda/Urbanice/screenshots/screenshot_001.png)
+![howToUse_01](https://github.com/Cxyda/Urbanice/blob/master/screenshots/screenshot_001.png)
 
 ### Screenshots
 ---
 
-![exampleCity_01](https://github.com/Cxyda/Urbanice/screenshots/exampleCity_01.png)
-![exampleCity_01](https://github.com/Cxyda/Urbanice/screenshots/exampleCity_02.png)
+![exampleCity_01](https://github.com/Cxyda/Urbanice/blob/master/screenshots/exampleCity_01.png)
+![exampleCity_01](https://github.com/Cxyda/Urbanice/blob/master/screenshots/exampleCity_02.png)
