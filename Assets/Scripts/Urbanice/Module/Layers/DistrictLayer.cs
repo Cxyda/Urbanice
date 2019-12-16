@@ -14,6 +14,9 @@ using Urbanice.Utils;
 
 namespace Urbanice.Module.Layers
 {
+    /// <summary>
+    /// This class is responsible for generating and distributing the Districts of a city
+    /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/DataLayers/Create new District Layer", fileName = "newDistrictLayer",
         order = 4)]
     public class DistrictLayer : BaseLayer, IUrbaniceLayer
@@ -69,6 +72,9 @@ namespace Urbanice.Module.Layers
 
         }
 
+        /// <summary>
+        /// Generates the streets between districts
+        /// </summary>
         private void CreateSecondaryStreetGraph()
         {
             foreach (var shape in PolygonIdToDistrictMap.Keys)
@@ -89,6 +95,9 @@ namespace Urbanice.Module.Layers
             }
         }
 
+        /// <summary>
+        /// Subdivides districts into Wards according to thhe given generator
+        /// </summary>
         private void DevelopDistricts()
         {
             foreach (var district in PolygonIdToDistrictMap.Values)
@@ -122,7 +131,9 @@ namespace Urbanice.Module.Layers
                 DevelopNeighbours(district);
             }
         }
-
+        /// <summary>
+        /// Subdivides long border edges
+        /// </summary>
         private void SubdivideDistricts()
         {
             for (int i = 0; i < BorderSubdivinition; i++)
@@ -141,6 +152,9 @@ namespace Urbanice.Module.Layers
             }
         }
 
+        /// <summary>
+        /// Generates the district polygons according to the used generator
+        /// </summary>
         private void BuildDistrictPolygons()
         {
             _cityCenter = CityLayer.CityCores[0];
@@ -158,6 +172,9 @@ namespace Urbanice.Module.Layers
             }
         }
 
+        /// <summary>
+        /// Sorts the districts by distance to the city center
+        /// </summary>
         private void SortRegionsByDistance()
         {
             Polygons.Sort((d1, d2) =>
@@ -170,6 +187,9 @@ namespace Urbanice.Module.Layers
             );
         }
 
+        /// <summary>
+        /// Assigns district types by the direct neighbors
+        /// </summary>
         private void GenerateDistricts()
         {
             if (Polygons.Count == 0)
@@ -215,6 +235,9 @@ namespace Urbanice.Module.Layers
             }
         }
 
+        /// <summary>
+        /// Finds a valid district type for a district
+        /// </summary>
         private DistrictType GetDistrictTypeForRegion(Polygon region)
         {
             var neighbors = region.GetNeighbors();
@@ -222,6 +245,7 @@ namespace Urbanice.Module.Layers
 
             List<DistrictType> forbiddenTypes = new List<DistrictType>();
 
+            // Gather all neighbors and sum up the weights
             foreach (var neighbor in neighbors)
             {
                 if (!PolygonIdToDistrictMap.ContainsKey(neighbor) || PolygonIdToDistrictMap[neighbor] == null)
@@ -233,6 +257,7 @@ namespace Urbanice.Module.Layers
                 {
                     if (nd.Weight == 0)
                     {
+                        // A forbidden type was found! Add it to the list to remove it later
                         forbiddenTypes.Add(nd.Element);
                         continue;
                     }
@@ -241,15 +266,18 @@ namespace Urbanice.Module.Layers
                 }
             }
 
+            // Assign invalid type because the weighted list is empty
             if (districtWeights.OverallWeight == 0)
                 return DistrictType.Invalid;
 
+            // Remove all forbidden district types
             foreach (var ft in forbiddenTypes)
             {
                 districtWeights.RemoveAll(ft);
             }
             // TODO : Apply filters later
 
+            // finally return one of the valid types
             var value = GlobalPRNG.Next();
             var type = districtWeights.GetElement(value);
             return type;

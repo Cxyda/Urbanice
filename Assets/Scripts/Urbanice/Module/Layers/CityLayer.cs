@@ -7,6 +7,9 @@ using Urbanice.Utils;
 
 namespace Urbanice.Module.Layers
 {
+    /// <summary>
+    /// This class is responsible to genate the city center locations within the city bounds
+    /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/DataLayers/Create new City Layer", fileName = "newCityLayer", order = 2)]
     public class CityLayer : BaseLayer, IUrbaniceLayer
     {

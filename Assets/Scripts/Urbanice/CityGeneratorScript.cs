@@ -3,6 +3,10 @@ using Urbanice.Module.Containers;
 
 namespace Urbanice
 {
+    /// <summary>
+    /// This simple class provides direct access to the <see cref="CityDefinitionContainer"/> to generate a new city
+    /// from the inspector
+    /// </summary>
     [ExecuteInEditMode]
     public class CityGeneratorScript : MonoBehaviour
     {
@@ -11,7 +15,7 @@ namespace Urbanice
     
         private void OnValidate()
         {
-            //GenerateCity();
+            GenerateCity();
         }
     
         void Update()

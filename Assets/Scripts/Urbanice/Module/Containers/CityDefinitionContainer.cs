@@ -9,6 +9,10 @@ using TerrainLayer = Urbanice.Module.Layers.TerrainLayer;
 
 namespace Urbanice.Module.Containers
 {
+    /// <summary>
+    /// This class serves as the central point of the city generation.
+    /// It holds all references to the used layers and triggers the generation process
+    /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/DefinitionContainers/Create new CityDefinition", fileName = "unknown CityDefinition", order = -10)]
     public class CityDefinitionContainer : ScriptableObject
     {
@@ -48,31 +52,22 @@ namespace Urbanice.Module.Containers
 
             if (CityLayer.Visibility == LayerVisibility.Generate)
             {
-                //Debug.Log($"+++++++++++ Generating City+++++++++++");
                 CityLayer.Generate(null);
-                //Debug.Log($"----------- DONE! -----------");
             }
 
             if (DistrictLayer.Visibility == LayerVisibility.Generate)
             {
-                //Debug.Log($"+++++++++++ Generating Districts +++++++++++");
                 DistrictLayer.Generate(CityLayer);
-                //Debug.Log($"----------- DONE! -----------");
             }
 
             if (WardLayer.Visibility == LayerVisibility.Generate)
             {
-                //Debug.Log($"+++++++++++ Generating Neighborhoods +++++++++++");
                 WardLayer.Generate(DistrictLayer);
-                //Debug.Log($"----------- DONE! -----------");
             }
             if (PrimaryStreetLayer.Visibility == LayerVisibility.Generate)
             {
-                //Debug.Log($"+++++++++++ Generating Streets +++++++++++");
                 PrimaryStreetLayer.Generate(DistrictLayer);
-                //Debug.Log($"----------- DONE! -----------");
             }
-            
             
             sw.Stop();
             Debug.Log($"GenerationTime: {sw.Elapsed.Milliseconds} ms" );

@@ -44,7 +44,7 @@ namespace Urbanice.Renderer
         {
             DrawDistrictPattern();
             DrawNeighborhoodPatterns();
-            //DrawStreetGraph(CityConfiguration.PrimaryStreetLayer.StreetGraph, Color.magenta);
+
             DrawStreetGraph();
             DrawCityElements();
 
@@ -60,8 +60,6 @@ namespace Urbanice.Renderer
             if(!ShowStreets || CityConfiguration.DistrictLayer == null || CityConfiguration.WardLayer == null)
                 return;
             
-            // Draw Secondary Streets
-
             DrawStreetGraph(CityConfiguration.WardLayer.TernaryStreetGraph, new Color(.1f, .1f,.1f,1f));
             DrawStreetGraph(CityConfiguration.DistrictLayer.SecondaryStreetGraph, new Color(.1f, .1f,.1f,1f));
             DrawStreetGraph(CityConfiguration.PrimaryStreetLayer.StreetGraph, new Color(0f, 0f,0f,1f));

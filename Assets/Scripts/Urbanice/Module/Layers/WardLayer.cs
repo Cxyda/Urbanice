@@ -15,6 +15,9 @@ using Urbanice.Utils;
 
 namespace Urbanice.Module.Layers
 {
+    /// <summary>
+    /// This class is responsible for generating and distributing the Wards of a city
+    /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/DataLayers/Create new Neighborhood Layer", fileName = "newNeighborhoodLayer", order = 5)]
     public class WardLayer : BaseLayer, IUrbaniceLayer
     {
@@ -34,6 +37,7 @@ namespace Urbanice.Module.Layers
 
         public void Init()
         {
+            // Nothing to do here yet
         }
 
         public void Generate(BaseLayer parentLayer)
@@ -55,6 +59,9 @@ namespace Urbanice.Module.Layers
             
         }
 
+        /// <summary>
+        /// Creates the streetgraph for the small ward streets
+        /// </summary>
         private void CreateTernaryStreetGraph()
         {
             foreach (var shape in PolygonIdToNeighborhoodMap.Keys)
@@ -75,6 +82,9 @@ namespace Urbanice.Module.Layers
             }
         }
 
+        /// <summary>
+        ///  Subdivides long edges of the ward polygons
+        /// </summary>
         private void SubdivideNeighborhoods()
         {
             for (int i = 0; i < BorderSubdivinition; i++)
@@ -92,7 +102,9 @@ namespace Urbanice.Module.Layers
                 }
             }
         }
-
+        /// <summary>
+        /// Generates the Neighboring Wards for each district
+        /// </summary>
         private void DevelopNeighborhoods()
         {
             foreach (var district in DistrictLayer.PolygonIdToDistrictMap.Values)
@@ -101,6 +113,9 @@ namespace Urbanice.Module.Layers
             }
         }
 
+        /// <summary>
+        /// Generates the neighboring wards
+        /// </summary>
         private void GenerateNeighborhood(DistrictData district)
         {
             for (var i = 0; i < district.Neigborhoods.Count; i++)
@@ -111,8 +126,6 @@ namespace Urbanice.Module.Layers
 
                 if (district.InitialType == WardType.Any && i == 0)
                 {
-                    Debug.Log("Getting types for " + district.Type);
-
                     var allValidTypes = WardDefinition.GetTypesFor(district.Type);
                     nType = GetAny(allValidTypes);
                 }
@@ -130,12 +143,20 @@ namespace Urbanice.Module.Layers
             Neighborhoods.AddRange(district.Neigborhoods);
         }
 
+        /// <summary>
+        /// Returns a random element from the given list
+        /// </summary>
         private WardType GetAny(List<WardType> allTypes)
         {
             var index = (int) (RandomGenerator.Generate() * allTypes.Count);
-            Debug.Log("index : " + index + " count: " + allTypes.Count);
             return allTypes[index];
         }
+        
+        /// <summary>
+        /// Finds a valid ward type for a polygon ward
+        /// </summary>
+        /// <param name="nPolygon"></param>
+        /// <returns></returns>
         private WardType GetNeighborhoodTypeFor(Polygon nPolygon)
         {
             var neighbors = nPolygon.GetNeighbors();
@@ -143,6 +164,7 @@ namespace Urbanice.Module.Layers
 
             List<WardType> forbiddenTypes = new List<WardType>();
 
+            // Check all neighbors for valid and invalid neighbor types
             foreach (var neighbor in neighbors)
             {
                 if (!PolygonIdToNeighborhoodMap.ContainsKey(neighbor) || PolygonIdToNeighborhoodMap[neighbor] == null)
@@ -154,6 +176,7 @@ namespace Urbanice.Module.Layers
                 {
                     if (nd.Weight == 0)
                     {
+                        // A weight of 0 means this type is forbidden, add it to the list to remove it later
                         forbiddenTypes.Add(nd.Element);
                         continue;
                     }
@@ -162,21 +185,26 @@ namespace Urbanice.Module.Layers
                 }
             }
 
+            // Assign type invalid, because for some reason the weighs list is empty
             if (wardWeights.OverallWeight == 0)
                 return WardType.Invalid;
 
+            // Remove all forbidden types
             foreach (var ft in forbiddenTypes)
             {
                 wardWeights.RemoveAll(ft);
             }
             // TODO : Apply filters later
 
+            // Finally get the type
             var value = GlobalPRNG.Next();
             var type = wardWeights.GetElement(value);
             return type;
         }
 
-
+        /// <summary>
+        /// Calculates a line intersection with a border
+        /// </summary>
         private bool  CalculateIntersectionWithBorder(out Vector2 intersection, Vector2 insideVertex, Vector2 outsideVertex, Polygon districtShape)
         {
             foreach (var edge in districtShape.Edges)
@@ -193,19 +221,8 @@ namespace Urbanice.Module.Layers
             return false;
         }
 
-        private static void GeneratePointsOnDistrictEdges(DistrictData district, ref List<Vertex> borderPoints)
-        {
-            foreach (var edge in district.Shape.Edges)
-            {
-                if (edge.Length < 0.005f)
-                    continue;
-                var p = GeometryUtils.GetPointOn(edge, GlobalPRNG.Next(RandomDistribution.Cubic));
-                borderPoints.Add(Vertex.Factory.Create(p));
-            }
-        }
-
         
-/*
+/*    Different algorithms to problems already solved above, keep it for later
         private void Option2(Vertex p0)
         {
             SecondaryStreets.AddNode(p0);
@@ -275,8 +292,6 @@ namespace Urbanice.Module.Layers
         SecondaryStreets.ConnectNodes(p0, closestVertex);
     }
         */
-
-
 
 /*
         public void CreateNeighborhoodIn(District district)

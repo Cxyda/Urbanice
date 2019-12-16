@@ -13,7 +13,8 @@ using Urbanice.Utils;
 namespace Urbanice.Module.Layers
 {
     /// <summary>
-    /// TODO:
+    /// This class is responsible for generating streets within the city. It is not fully implemented yet.
+    /// For now it only generates streets which would connect the city to other cities.
     /// </summary>
     [CreateAssetMenu(menuName = "Urbanice/DataLayers/Create new Street Layer", fileName = "newStreetLayer", order = 3)]
     public class StreetLayer : BaseLayer, IUrbaniceLayer
@@ -26,6 +27,7 @@ namespace Urbanice.Module.Layers
             West
             
         }
+        
         public FloatGenerator FloatGenerator;
 
         public float StreetNoise = .25f;
@@ -84,6 +86,7 @@ namespace Urbanice.Module.Layers
         {
             WeightedList<WeightedElement<Directions>, Directions> borderWeights = new WeightedList<WeightedElement<Directions>, Directions>();
             
+            // Add 8 valid directions to the weighted list. For now 8 streets max are possible
             borderWeights.Add(new WeightedElement<Directions>(Directions.North, 1));
             borderWeights.Add(new WeightedElement<Directions>(Directions.East, 1));
             borderWeights.Add(new WeightedElement<Directions>(Directions.South, 1));
@@ -122,6 +125,9 @@ namespace Urbanice.Module.Layers
             }
             return pointOnBounds;
         }
+        /// <summary>
+        /// Creates a street on the dirstrict border and adds it to the streetgraph
+        /// </summary>
         private void BuildStreetOnDistrictEdges(DistrictData d)
         {
             for (int i = 0; i < d.Shape.Points.Count; i++)
@@ -134,11 +140,15 @@ namespace Urbanice.Module.Layers
             }
         }
 
+        /// <summary>
+        /// Builds a crossroad and branches out towards the bisectrix of a corner point
+        /// </summary>
         private void BuildCrossRoads(DistrictData d)
         {
             // find crossroads
             foreach (Vertex cp in d.Shape.Points)
             {
+                // Don't allow every crossroad to branch out'
                 float crossroadProbability = 5 * FloatGenerator.Generate() / (cp.Edges.Count - 3);
                 if (crossroadProbability < .25f)
                     continue;
@@ -186,6 +196,9 @@ namespace Urbanice.Module.Layers
             }
         }
 
+        /// <summary>
+        /// Calculates the intersection between a line and a polygon
+        /// </summary>
         private bool CheckForLineIntersection(Vector2 p1Start, Vector2 p1End, List<Polygon> polygons, out Vector2 intersection)
         {
             foreach (var p in polygons)
@@ -204,6 +217,9 @@ namespace Urbanice.Module.Layers
             return false;
         }
 
+        /// <summary>
+        /// Adds a line to the streetgraph
+        /// </summary>
         private void AddLineToGraph(List<Vertex> line, bool loop = false)
         {
             for (int i = 0; i < line.Count; i++)
@@ -277,8 +293,6 @@ namespace Urbanice.Module.Layers
             }
         }*/
 
-
-        
         /*
         public void GenerateStreet(Vertex p)
         {
