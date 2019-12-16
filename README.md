@@ -10,7 +10,7 @@
 
 - This project can be downloaded or cloned to you computer
 
-- You should use the UnityHub application to manage your installed unity versions. The UnityHub can be downloaded here (https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.dmg?_ga=2.199271726.1683222043.1576479010-531499030.1522929414)
+- You should use the UnityHub application to manage your installed unity versions. The UnityHub can be downloaded here (https://unity3d.com/de/get-unity/download)
 - After UnityHub has been installed you can click on installs ((1) see screenshot below) and add Unity Version **2019.1.f10**
 - Now you can Add (2) the downloaded project and double click (3) to open it
 ![howToUse_01](https://github.com/Cxyda/Urbanice/blob/master/screenshots/screenshot_002.png)
